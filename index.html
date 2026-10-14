@@ -1,0 +1,1159 @@
+<title>MyRishikeshTrip</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+/* === DESIGN TOKENS === */
+/* Layout: Full-bleed hero with earthy adventure palette, card grid, sticky nav */
+:root {
+  --bg: #F7F4F0;
+  --bg2: #FFFFFF;
+  --fg: #1A1612;
+  --fg2: #5C5147;
+  --accent: #D4622A;
+  --accent2: #2A7A5A;
+  --border: #E2DDD8;
+  --card-bg: #FFFFFF;
+  --nav-bg: rgba(247,244,240,0.95);
+  --hero-overlay: rgba(20,14,8,0.48);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141210;
+    --bg2: #1E1A16;
+    --fg: #F0EBE4;
+    --fg2: #A89880;
+    --accent: #E07040;
+    --accent2: #40A070;
+    --border: #2E2820;
+    --card-bg: #1E1A16;
+    --nav-bg: rgba(20,18,16,0.95);
+    --hero-overlay: rgba(10,8,6,0.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141210;
+  --bg2: #1E1A16;
+  --fg: #F0EBE4;
+  --fg2: #A89880;
+  --accent: #E07040;
+  --accent2: #40A070;
+  --border: #2E2820;
+  --card-bg: #1E1A16;
+  --nav-bg: rgba(20,18,16,0.95);
+  --hero-overlay: rgba(10,8,6,0.6);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(0px, env(safe-area-inset-left, 0px));
+  padding-right: max(0px, env(safe-area-inset-right, 0px));
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 max(16px, env(safe-area-inset-left, 0px));
+}
+.nav-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 24px;
+}
+.nav-logo {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--fg2);
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  background: var(--accent);
+  color: #fff;
+  padding: 9px 22px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.nav-cta:hover { opacity: 0.88; }
+.nav-mobile-hide { display: flex; }
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a3a2a 0%, #2d1a0a 50%, #0a1a2a 100%);
+}
+/* SVG mountain silhouette */
+.hero-mountains {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-overlay);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 80px max(16px, env(safe-area-inset-left, 0px));
+  max-width: 1160px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 900;
+  color: #F7F2EC;
+  line-height: 1.08;
+  text-wrap: balance;
+  max-width: 720px;
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: #F0B87A;
+}
+.hero-sub {
+  color: #C8BFB4;
+  font-size: 1.05rem;
+  max-width: 480px;
+  margin-bottom: 40px;
+  line-height: 1.65;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-outline {
+  border: 2px solid rgba(255,255,255,0.35);
+  color: #F7F2EC;
+  padding: 14px 32px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  background: transparent;
+  transition: border-color 0.15s;
+}
+.btn-outline:hover { border-color: rgba(255,255,255,0.7); }
+.hero-stats {
+  margin-top: 60px;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat { color: #F7F2EC; }
+.hero-stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #F0B87A;
+  font-variant-numeric: tabular-nums;
+}
+.hero-stat-label { font-size: 0.8rem; color: #A89880; letter-spacing: 0.05em; margin-top: 2px; }
+
+/* TRUST STRIP */
+.trust-strip {
+  background: var(--accent2);
+  padding: 14px max(16px, env(safe-area-inset-left, 0px));
+}
+.trust-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.trust-item {
+  color: #E8F5EE;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.trust-icon { font-size: 1rem; }
+
+/* SECTIONS */
+.section {
+  padding: 80px max(16px, env(safe-area-inset-left, 0px));
+}
+.section-inner { max-width: 1160px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--fg);
+  text-wrap: balance;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.section-sub {
+  color: var(--fg2);
+  font-size: 1rem;
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+
+/* CATEGORIES */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.cat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.15s, border-color 0.15s;
+}
+.cat-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+.cat-icon { font-size: 2.4rem; margin-bottom: 12px; }
+.cat-name { font-weight: 600; font-size: 0.95rem; color: var(--fg); }
+.cat-count { font-size: 0.78rem; color: var(--fg2); margin-top: 4px; }
+
+/* CAMP CARDS */
+.camps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.camp-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.camp-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+}
+.camp-thumb {
+  height: 210px;
+  position: relative;
+  overflow: hidden;
+}
+.camp-thumb-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.camp-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.camp-body { padding: 20px; }
+.camp-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--fg2);
+  margin-bottom: 8px;
+}
+.camp-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--fg);
+}
+.camp-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--fg2);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.camp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.camp-price { font-size: 0.82rem; color: var(--fg2); }
+.camp-price strong {
+  font-size: 1.2rem;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.btn-book {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-book:hover { opacity: 0.88; }
+
+/* ACTIVITIES */
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+.activity-card {
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  height: 280px;
+  cursor: pointer;
+}
+.activity-bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.activity-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,6,2,0.8) 0%, rgba(10,6,2,0.1) 60%);
+}
+.activity-content {
+  position: relative;
+  z-index: 2;
+  padding: 24px;
+  width: 100%;
+}
+.activity-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.activity-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #F7F2EC;
+  margin-bottom: 4px;
+}
+.activity-price { font-size: 0.85rem; color: #C8BFB4; }
+
+/* HOW IT WORKS */
+.hiw-bg { background: var(--bg2); }
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 32px;
+  counter-reset: steps;
+}
+.step { position: relative; padding-left: 0; }
+.step-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.18;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.step-title { font-weight: 600; font-size: 1rem; margin-bottom: 8px; color: var(--fg); }
+.step-desc { font-size: 0.88rem; color: var(--fg2); line-height: 1.6; }
+
+/* REVIEWS */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.review-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.review-stars { color: #F0A832; font-size: 0.9rem; margin-bottom: 12px; }
+.review-text { font-size: 0.9rem; color: var(--fg2); line-height: 1.65; margin-bottom: 16px; font-style: italic; }
+.review-author { font-weight: 600; font-size: 0.85rem; color: var(--fg); }
+.review-trip { font-size: 0.78rem; color: var(--fg2); }
+
+/* CTA BANNER */
+.cta-banner {
+  background: linear-gradient(135deg, #1a3a2a 0%, var(--accent) 100%);
+  padding: 72px max(16px, env(safe-area-inset-left, 0px));
+  text-align: center;
+}
+.cta-banner h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #F7F2EC;
+  text-wrap: balance;
+  margin-bottom: 16px;
+}
+.cta-banner p { color: rgba(247,242,236,0.75); margin-bottom: 36px; font-size: 1rem; }
+.cta-form {
+  display: flex;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cta-form input {
+  flex: 1;
+  min-width: 200px;
+  padding: 13px 18px;
+  border-radius: 7px;
+  border: none;
+  font-size: 0.95rem;
+  background: rgba(255,255,255,0.15);
+  color: #F7F2EC;
+  outline: none;
+}
+.cta-form input::placeholder { color: rgba(247,242,236,0.5); }
+.cta-form input:focus { background: rgba(255,255,255,0.22); }
+
+/* FOOTER */
+footer {
+  background: #0E0C0A;
+  color: #8A7A6A;
+  padding: 56px max(16px, env(safe-area-inset-left, 0px)) 32px;
+}
+.footer-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+.footer-brand .nav-logo { font-size: 1.4rem; margin-bottom: 12px; display: block; }
+.footer-desc { font-size: 0.85rem; line-height: 1.7; max-width: 240px; color: #6A5A4A; }
+.footer-col h4 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5A4A3A; margin-bottom: 16px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul li a { font-size: 0.85rem; color: #6A5A4A; transition: color 0.15s; }
+.footer-col ul li a:hover { color: var(--accent); }
+.footer-bottom {
+  max-width: 1160px;
+  margin: 40px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #1E1A16;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: #4A3A2A;
+}
+.whatsapp-float {
+  position: fixed;
+  bottom: max(28px, env(safe-area-inset-bottom, 28px));
+  right: max(28px, env(safe-area-inset-right, 28px));
+  background: #25D366;
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  z-index: 200;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.whatsapp-float:hover { transform: scale(1.08); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+.modal-box {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--fg2);
+  line-height: 1;
+}
+.modal-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--fg);
+}
+.modal-sub { font-size: 0.9rem; color: var(--fg2); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 0.8rem; font-weight: 600; color: var(--fg2); margin-bottom: 6px; display: block; }
+.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.form-input:focus { border-color: var(--accent); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.btn-full { width: 100%; justify-content: center; font-size: 1rem; padding: 13px; margin-top: 8px; }
+.success-msg {
+  text-align: center;
+  padding: 20px;
+  color: var(--accent2);
+  font-weight: 600;
+}
+
+/* CAMP THUMB SVGs (inline backgrounds) */
+.thumb-1 { background: linear-gradient(160deg,#1a3a2a,#2d4a1a,#4a3a0a); }
+.thumb-2 { background: linear-gradient(160deg,#0a2a3a,#1a1a3a,#2a0a2a); }
+.thumb-3 { background: linear-gradient(160deg,#3a1a0a,#2a2a0a,#1a3a1a); }
+.thumb-4 { background: linear-gradient(160deg,#0a1a3a,#1a3a2a,#2a1a0a); }
+.thumb-5 { background: linear-gradient(160deg,#2a0a1a,#1a2a0a,#0a2a2a); }
+.thumb-6 { background: linear-gradient(160deg,#1a2a0a,#2a1a1a,#0a1a3a); }
+
+.thumb-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  opacity: 0.6;
+}
+
+/* Activity colors */
+.act-1 { background: linear-gradient(160deg,#0a2040,#1a4060); }
+.act-2 { background: linear-gradient(160deg,#401a0a,#602a0a); }
+.act-3 { background: linear-gradient(160deg,#0a401a,#1a6030); }
+.act-4 { background: linear-gradient(160deg,#200a40,#401060); }
+
+@media (max-width: 640px) {
+  .nav-links, .nav-mobile-hide { display: none; }
+  .hero { min-height: 85vh; }
+  .hero-stats { gap: 24px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .footer-inner { grid-template-columns: 1fr; }
+}
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">MyRishikeshTrip</a>
+    <ul class="nav-links nav-mobile-hide">
+      <li><a href="#camps">Camps</a></li>
+      <li><a href="#activities">Activities</a></li>
+      <li><a href="#how">How it Works</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <a href="#" class="nav-cta" onclick="openModal(event)">Book Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <svg class="hero-mountains" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,400 L0,260 L120,180 L200,220 L320,100 L420,160 L520,80 L600,130 L720,40 L820,110 L920,60 L1020,140 L1120,70 L1200,130 L1320,90 L1440,150 L1440,400 Z" fill="#0d1f14" opacity="0.8"/>
+      <path d="M0,400 L0,310 L100,270 L200,290 L320,230 L440,260 L560,200 L660,240 L780,180 L880,220 L980,190 L1100,230 L1220,200 L1340,240 L1440,210 L1440,400 Z" fill="#111a0e" opacity="0.9"/>
+      <path d="M0,400 L0,360 L180,320 L360,340 L540,300 L720,330 L900,310 L1080,340 L1260,320 L1440,350 L1440,400 Z" fill="#0a1208" opacity="1"/>
+    </svg>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-tag">✦ Rishikesh, Uttarakhand</span>
+    <h1>Your <em>Adventure</em> Awaits in the Himalayas</h1>
+    <p class="hero-sub">Handpicked camps, rafting, bungee jumping and jungle stays — booked in minutes, confirmed directly with owners.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal(event)">🏕️ Explore Camps</button>
+      <button class="btn-outline" onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth'})">See Activities</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">50+</div>
+        <div class="hero-stat-label">Verified Camps</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2,400+</div>
+        <div class="hero-stat-label">Happy Travellers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4.8★</div>
+        <div class="hero-stat-label">Average Rating</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">₹0</div>
+        <div class="hero-stat-label">Hidden Charges</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-item"><span class="trust-icon">✅</span> Verified by locals</div>
+    <div class="trust-item"><span class="trust-icon">💬</span> WhatsApp confirmed</div>
+    <div class="trust-item"><span class="trust-icon">🔒</span> Secure Razorpay payments</div>
+    <div class="trust-item"><span class="trust-icon">↩️</span> Easy cancellations</div>
+    <div class="trust-item"><span class="trust-icon">📅</span> Instant booking confirmation</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section" id="camps">
+  <div class="section-inner">
+    <div class="section-eyebrow">Browse by Type</div>
+    <h2 class="section-title">What's Your Vibe?</h2>
+    <p class="section-sub">From riverside tents to treehouse stays — find exactly what you're looking for.</p>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="openModal(event)">
+        <div class="cat-icon">🏕️</div>
+        <div class="cat-name">River Camps</div>
+        <div class="cat-count">24 options</div>
+      </div>
+      <div class="cat-card" onclick="openModal(event)">
+        <div class="cat-icon">🌿</div>
+        <div class="cat-name">Jungle Resorts</div>
+        <div class="cat-count">12 options</div>
+      </div>
+      <div class="cat-card" onclick="openModal(event)">
+        <div class="cat-icon">🏠</div>
+        <div class="cat-name">Airbnbs & Cottages</div>
+        <div class="cat-count">18 options</div>
+      </div>
+      <div class="cat-card" onclick="openModal(event)">
+        <div class="cat-icon">🧘</div>
+        <div class="cat-name">Yoga Retreats</div>
+        <div class="cat-count">8 options</div>
+      </div>
+      <div class="cat-card" onclick="openModal(event)">
+        <div class="cat-icon">🌄</div>
+        <div class="cat-name">Cliff-Side Stays</div>
+        <div class="cat-count">6 options</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED CAMPS -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="section-eyebrow">Handpicked for You</div>
+    <h2 class="section-title">Featured Camps</h2>
+    <p class="section-sub">Personally verified by our team. What you see is what you get.</p>
+    <div class="camps-grid">
+      <!-- Camp 1 -->
+      <div class="camp-card">
+        <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
+        <span class="camp-badge">Best Seller</span>
+        <div class="camp-body">
+          <div class="camp-meta">📍 Shivpuri · 3 km from Laxman Jhula</div>
+          <div class="camp-name">Camp Ganga Darshan</div>
+          <div class="camp-tags">
+            <span class="tag">Riverside</span>
+            <span class="tag">Bonfire</span>
+            <span class="tag">Rafting Combo</span>
+          </div>
+          <div class="camp-footer">
+            <div class="camp-price">From <strong>₹1,299</strong>/person</div>
+            <button class="btn-book" onclick="openModal(event)">Book Now</button>
+          </div>
+        </div>
+      </div>
+      <!-- Camp 2 -->
+      <div class="camp-card">
+        <div class="camp-thumb thumb-2"><div class="thumb-label">🌙</div></div>
+        <span class="camp-badge">★ Top Rated</span>
+        <div class="camp-body">
+          <div class="camp-meta">📍 Byasi · Near Marine Drive</div>
+          <div class="camp-name">Himalayan Echo Camp</div>
+          <div class="camp-tags">
+            <span class="tag">Stargazing</span>
+            <span class="tag">Kayaking</span>
+            <span class="tag">Meals Incl.</span>
+          </div>
+          <div class="camp-footer">
+            <div class="camp-price">From <strong>₹1,799</strong>/person</div>
+            <button class="btn-book" onclick="openModal(event)">Book Now</button>
+          </div>
+        </div>
+      </div>
+      <!-- Camp 3 -->
+      <div class="camp-card">
+        <div class="camp-thumb thumb-3"><div class="thumb-label">🌿</div></div>
+        <span class="camp-badge">New Listing</span>
+        <div class="camp-body">
+          <div class="camp-meta">📍 Rishikesh · Near Tapovan</div>
+          <div class="camp-name">Wild Roots Jungle Retreat</div>
+          <div class="camp-tags">
+            <span class="tag">Treehouse</span>
+            <span class="tag">Zip Line</span>
+            <span class="tag">Organic Food</span>
+          </div>
+          <div class="camp-footer">
+            <div class="camp-price">From <strong>₹2,199</strong>/person</div>
+            <button class="btn-book" onclick="openModal(event)">Book Now</button>
+          </div>
+        </div>
+      </div>
+      <!-- Camp 4 -->
+      <div class="camp-card">
+        <div class="camp-thumb thumb-4"><div class="thumb-label">🏔️</div></div>
+        <div class="camp-body">
+          <div class="camp-meta">📍 Neelkanth Road · Quiet Zone</div>
+          <div class="camp-name">Camp Atma Shanti</div>
+          <div class="camp-tags">
+            <span class="tag">Yoga Camp</span>
+            <span class="tag">Meditation</span>
+            <span class="tag">Sattvic Meals</span>
+          </div>
+          <div class="camp-footer">
+            <div class="camp-price">From <strong>₹1,499</strong>/person</div>
+            <button class="btn-book" onclick="openModal(event)">Book Now</button>
+          </div>
+        </div>
+      </div>
+      <!-- Camp 5 -->
+      <div class="camp-card">
+        <div class="camp-thumb thumb-5"><div class="thumb-label">🌊</div></div>
+        <div class="camp-body">
+          <div class="camp-meta">📍 Kaudiyala · 35 km upstream</div>
+          <div class="camp-name">Rapid Rush River Camp</div>
+          <div class="camp-tags">
+            <span class="tag">Grade 4 Rapids</span>
+            <span class="tag">Cliff Jump</span>
+            <span class="tag">Night Safari</span>
+          </div>
+          <div class="camp-footer">
+            <div class="camp-price">From <strong>₹2,499</strong>/person</div>
+            <button class="btn-book" onclick="openModal(event)">Book Now</button>
+          </div>
+        </div>
+      </div>
+      <!-- Camp 6 -->
+      <div class="camp-card">
+        <div class="camp-thumb thumb-6"><div class="thumb-label">🌅</div></div>
+        <div class="camp-body">
+          <div class="camp-meta">📍 Shivpuri · Ganga View</div>
+          <div class="camp-name">Sunrise Point Cottage</div>
+          <div class="camp-tags">
+            <span class="tag">Private Cottage</span>
+            <span class="tag">Couples Friendly</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <div class="camp-footer">
+            <div class="camp-price">From <strong>₹3,499</strong>/night</div>
+            <button class="btn-book" onclick="openModal(event)">Book Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="section" id="activities" style="background: var(--bg2);">
+  <div class="section-inner">
+    <div class="section-eyebrow">Thrills & Experiences</div>
+    <h2 class="section-title">Adventure Activities</h2>
+    <p class="section-sub">Book activities independently or bundle them with your camp stay for the best price.</p>
+    <div class="activities-grid">
+      <div class="activity-card">
+        <div class="activity-bg act-1">
+          <div class="activity-overlay"></div>
+          <div class="activity-content">
+            <div class="activity-icon">🚣</div>
+            <div class="activity-name">River Rafting</div>
+            <div class="activity-price">From ₹600 / person · 16 km stretch</div>
+          </div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-bg act-2">
+          <div class="activity-overlay"></div>
+          <div class="activity-content">
+            <div class="activity-icon">🪂</div>
+            <div class="activity-name">Bungee Jumping</div>
+            <div class="activity-price">From ₹3,500 / jump · 83 m drop</div>
+          </div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-bg act-3">
+          <div class="activity-overlay"></div>
+          <div class="activity-content">
+            <div class="activity-icon">🌳</div>
+            <div class="activity-name">Flying Fox & Zip Line</div>
+            <div class="activity-price">From ₹1,200 / person · 3 lines</div>
+          </div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-bg act-4">
+          <div class="activity-overlay"></div>
+          <div class="activity-content">
+            <div class="activity-icon">🧗</div>
+            <div class="activity-name">Rock Climbing & Rappelling</div>
+            <div class="activity-price">From ₹800 / person · All levels</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section hiw-bg" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow">Simple Process</div>
+    <h2 class="section-title">How Booking Works</h2>
+    <p class="section-sub">We keep it simple. From browse to bonfire in a few taps.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Browse & Choose</div>
+        <div class="step-desc">Filter by dates, budget, activities and location. Every listing is personally verified by us.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Pay Securely</div>
+        <div class="step-desc">Pay a small advance via Razorpay. Your payment is held safely until the camp confirms your booking.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Camp Confirms on WhatsApp</div>
+        <div class="step-desc">The camp owner gets a WhatsApp alert and confirms your booking within 6 hours. You get notified instantly.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Pack & Go!</div>
+        <div class="step-desc">Receive the camp's address, contact, and packing tips. We're on WhatsApp the whole trip if you need us.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <div class="section-inner">
+    <div class="section-eyebrow">Real Stories</div>
+    <h2 class="section-title">What Travellers Say</h2>
+    <p class="section-sub">Real reviews from people who booked through MyRishikeshTrip.</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Booked Camp Ganga Darshan 2 days before and everything was sorted via WhatsApp. The camp was exactly as shown. Best Rishikesh trip ever!"</div>
+        <div class="review-author">Priya Sharma</div>
+        <div class="review-trip">Ganga Darshan Camp · Oct 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Rafting + bungee combo was insane value. Mohit's team arranged everything last minute. No hidden charges, super transparent pricing."</div>
+        <div class="review-author">Arjun Mehta</div>
+        <div class="review-trip">River Rafting + Bungee · Sep 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <div class="review-text">"The Wild Roots Jungle Retreat was magical. Treehouse was real! Food was great. Booking process was simple and the team was available on WhatsApp throughout."</div>
+        <div class="review-author">Neha & Rohit Gupta</div>
+        <div class="review-trip">Wild Roots Retreat · Aug 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Our corporate group of 25 people — they handled everything from transport to bonfire dinner. Absolutely seamless. Will book again."</div>
+        <div class="review-author">Vikram Bose</div>
+        <div class="review-trip">Group Booking · Jul 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Found this on Instagram and took a chance. Best decision! Camp was confirmed same day. Sunrise from the tent was unreal."</div>
+        <div class="review-author">Aanya Kapoor</div>
+        <div class="review-trip">Sunrise Point Cottage · Sep 2026</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Solo trip to Rishikesh — MyRishikeshTrip made it so easy. They connected me with a yoga camp that wasn't even listed yet. Personal service is unmatched."</div>
+        <div class="review-author">Siddharth Rao</div>
+        <div class="review-trip">Camp Atma Shanti · Oct 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Ready for Your Rishikesh Adventure?</h2>
+  <p>Drop your email and we'll send you the best deals and new camp listings every week.</p>
+  <form class="cta-form" onsubmit="handleCtaSubmit(event)">
+    <input type="email" placeholder="your@email.com" id="cta-email" required>
+    <button class="btn-primary" type="submit">Get Deals ✦</button>
+  </form>
+  <div id="cta-success" hidden style="color:#F0B87A;font-weight:600;margin-top:16px;">🎉 You're on the list! Check your inbox.</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo">MyRishikeshTrip</span>
+      <div class="footer-desc">Your local Rishikesh travel expert. Connecting travellers with the best camps, stays and adventures since 2020.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#camps">River Camps</a></li>
+        <li><a href="#camps">Jungle Resorts</a></li>
+        <li><a href="#activities">River Rafting</a></li>
+        <li><a href="#activities">Bungee Jumping</a></li>
+        <li><a href="#camps">Yoga Retreats</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">How It Works</a></li>
+        <li><a href="#">List Your Camp</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MyRishikeshTrip. All rights reserved.</span>
+    <span>Made with ♥ for Rishikesh</span>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="whatsapp-float" href="https://wa.me/919999999999" target="_blank" title="Chat on WhatsApp">💬</a>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal" hidden onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-form-view">
+      <div class="modal-title">Book Your Stay</div>
+      <div class="modal-sub">Fill in your details and we'll confirm within 6 hours via WhatsApp.</div>
+      <form onsubmit="handleBooking(event)">
+        <div class="form-group">
+          <label class="form-label" for="m-name">Full Name</label>
+          <input class="form-input" id="m-name" type="text" placeholder="Arjun Sharma" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="m-phone">WhatsApp Number</label>
+            <input class="form-input" id="m-phone" type="tel" placeholder="9876543210" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="m-guests">No. of Guests</label>
+            <input class="form-input" id="m-guests" type="number" min="1" max="50" placeholder="2" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="m-checkin">Check-in Date</label>
+            <input class="form-input" id="m-checkin" type="date" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="m-checkout">Check-out Date</label>
+            <input class="form-input" id="m-checkout" type="date" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="m-camp">Which Camp / Activity?</label>
+          <input class="form-input" id="m-camp" type="text" placeholder="e.g. Camp Ganga Darshan or Rafting">
+        </div>
+        <button type="submit" class="btn-primary btn-full">Send Booking Request 🏕️</button>
+      </form>
+    </div>
+    <div id="modal-success-view" hidden>
+      <div class="success-msg">
+        <div style="font-size:2.5rem;margin-bottom:16px;">🎉</div>
+        <div class="modal-title" style="text-align:center;margin-bottom:8px;">Request Sent!</div>
+        <div style="font-size:0.9rem;color:var(--fg2);font-weight:400;line-height:1.65;">We've received your booking request. You'll get a WhatsApp confirmation within 6 hours. Keep an eye on your phone!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Set min date to 2 days from now
+function setMinDates() {
+  const d = new Date();
+  d.setDate(d.getDate() + 2);
+  const min = d.toISOString().split('T')[0];
+  const ci = document.getElementById('m-checkin');
+  const co = document.getElementById('m-checkout');
+  if (ci) ci.min = min;
+  if (co) co.min = min;
+}
+
+function openModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('bookingModal').hidden = false;
+  document.getElementById('modal-form-view').hidden = false;
+  document.getElementById('modal-success-view').hidden = true;
+  setMinDates();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').hidden = true;
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('bookingModal')) closeModal();
+}
+
+function handleBooking(e) {
+  e.preventDefault();
+  document.getElementById('modal-form-view').hidden = true;
+  document.getElementById('modal-success-view').hidden = false;
+  setTimeout(closeModal, 3500);
+}
+
+function handleCtaSubmit(e) {
+  e.preventDefault();
+  document.getElementById('cta-success').hidden = false;
+  document.getElementById('cta-email').value = '';
+}
+
+// Keyboard close
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
