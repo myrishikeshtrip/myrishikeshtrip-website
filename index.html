@@ -1071,99 +1071,11 @@ footer {
 <!-- WHATSAPP FLOAT -->
 <a class="whatsapp-float" href="https://wa.me/919999999999" target="_blank" title="Chat on WhatsApp">💬</a>
 
-<!-- BOOKING MODAL -->
-<div class="modal-overlay" id="bookingModal" hidden onclick="closeModalOutside(event)">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div id="modal-form-view">
-      <div class="modal-title">Book Your Stay</div>
-      <div class="modal-sub">Fill in your details and we'll confirm within 6 hours via WhatsApp.</div>
-      <form onsubmit="handleBooking(event)">
-        <div class="form-group">
-          <label class="form-label" for="m-name">Full Name</label>
-          <input class="form-input" id="m-name" type="text" placeholder="Arjun Sharma" required>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="m-phone">WhatsApp Number</label>
-            <input class="form-input" id="m-phone" type="tel" placeholder="9876543210" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="m-guests">No. of Guests</label>
-            <input class="form-input" id="m-guests" type="number" min="1" max="50" placeholder="2" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="m-checkin">Check-in Date</label>
-            <input class="form-input" id="m-checkin" type="date" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="m-checkout">Check-out Date</label>
-            <input class="form-input" id="m-checkout" type="date" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="m-camp">Which Camp / Activity?</label>
-          <input class="form-input" id="m-camp" type="text" placeholder="e.g. Camp Ganga Darshan or Rafting">
-        </div>
-        <button type="submit" class="btn-primary btn-full">Send Booking Request 🏕️</button>
-      </form>
-    </div>
-    <div id="modal-success-view" hidden>
-      <div class="success-msg">
-        <div style="font-size:2.5rem;margin-bottom:16px;">🎉</div>
-        <div class="modal-title" style="text-align:center;margin-bottom:8px;">Request Sent!</div>
-        <div style="font-size:0.9rem;color:var(--fg2);font-weight:400;line-height:1.65;">We've received your booking request. You'll get a WhatsApp confirmation within 6 hours. Keep an eye on your phone!</div>
-        <button onclick="closeModal()" style="margin-top:20px;padding:10px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:600;">Close ✕</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
-// Set min date to 2 days from now
-function setMinDates() {
-  const d = new Date();
-  d.setDate(d.getDate() + 2);
-  const min = d.toISOString().split('T')[0];
-  const ci = document.getElementById('m-checkin');
-  const co = document.getElementById('m-checkout');
-  if (ci) ci.min = min;
-  if (co) co.min = min;
-}
-
-function openModal(e) {
-  if (e) e.preventDefault();
-  document.getElementById('bookingModal').hidden = false;
-  document.getElementById('modal-form-view').hidden = false;
-  document.getElementById('modal-success-view').hidden = true;
-  setMinDates();
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  document.getElementById('bookingModal').hidden = true;
-  document.body.style.overflow = '';
-}
-
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('bookingModal')) closeModal();
-}
-
-function handleBooking(e) {
-  e.preventDefault();
-  document.getElementById('modal-form-view').hidden = true;
-  document.getElementById('modal-success-view').hidden = false;
-  setTimeout(closeModal, 3500);
-}
-
 function handleCtaSubmit(e) {
   e.preventDefault();
   document.getElementById('cta-success').hidden = false;
   document.getElementById('cta-email').value = '';
 }
-
-// Keyboard close
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
