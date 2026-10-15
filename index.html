@@ -584,21 +584,23 @@ footer {
 }
 .modal-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: var(--border);
+  top: 10px;
+  right: 10px;
+  background: #555;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  color: var(--fg);
+  color: #fff;
   line-height: 1;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 9999;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .modal-title {
   font-family: 'Playfair Display', Georgia, serif;
