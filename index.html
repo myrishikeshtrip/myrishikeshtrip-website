@@ -679,6 +679,14 @@ footer {
 .rail-scroll::-webkit-scrollbar-track { background: transparent; }
 .rail-scroll::-webkit-scrollbar-thumb { background: var(--border,#333); border-radius: 4px; }
 .rail-scroll .camp-card { min-width: 280px; max-width: 300px; flex-shrink: 0; scroll-snap-align: start; }
+
+/* ── Rail See-All End Card ── */
+.rail-end-card { min-width: 180px; max-width: 180px; flex-shrink: 0; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; }
+.rail-end-link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: rgba(255,255,255,0.05); border: 1.5px dashed rgba(255,255,255,0.15); border-radius: 16px; width: 100%; height: 100%; min-height: 200px; text-decoration: none; color: var(--accent,#e8825a); transition: background .2s, border-color .2s; padding: 24px 16px; text-align: center; }
+.rail-end-link:hover { background: rgba(255,255,255,0.09); border-color: var(--accent,#e8825a); }
+.rail-end-icon { font-size: 2rem; font-weight: 700; }
+.rail-end-text { font-size: .95rem; font-weight: 700; line-height: 1.4; }
+.rail-end-text span { font-size: .75rem; font-weight: 400; color: var(--muted,#aaa); }
 </style>
 
 <!-- NAV -->
@@ -794,7 +802,6 @@ footer {
           <h2 class="section-title">Luxury Cottages</h2>
           <p class="section-sub">Premium stays with stunning river &amp; mountain views.</p>
         </div>
-        <a href="#cottage" class="rail-see-all">See all →</a>
       </div>
       <div class="rail-scroll">
         <div class="camp-card">
@@ -819,12 +826,89 @@ footer {
         </div>
         <div class="camp-card">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏡</div></div>
+          
           <div class="camp-body">
             <div class="camp-meta">📍 Rishikesh Town · 5 min walk to Ganga</div>
             <div class="camp-name">Stone Nest Cottage</div>
             <div class="camp-tags"><span class="tag">AC Room</span><span class="tag">Breakfast Included</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,999</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
+          <span class="camp-badge">Trending</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Jungle Side</div>
+            <div class="camp-name">Himalayan Wood Cabin</div>
+            <div class="camp-tags"><span class="tag">Wood Fireplace</span><span class="tag">Valley View</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹3,799</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏡</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Ram Jhula · Ganga Facing</div>
+            <div class="camp-name">Ganga View Villa</div>
+            <div class="camp-tags"><span class="tag">2 Bedrooms</span><span class="tag">Private Garden</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹5,499</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏡</div></div>
+          <span class="camp-badge">Eco Stay</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Neelkanth Road · Forest</div>
+            <div class="camp-name">The Bamboo Cottage</div>
+            <div class="camp-tags"><span class="tag">Eco-Friendly</span><span class="tag">Solar Powered</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹2,499</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Byasi · Riverside</div>
+            <div class="camp-name">Rock Edge Cottage</div>
+            <div class="camp-tags"><span class="tag">Cliff View</span><span class="tag">Hammock Deck</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹3,299</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏡</div></div>
+          <span class="camp-badge">Family Pick</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Shivpuri · Camp Area</div>
+            <div class="camp-name">Jungle Family Cottage</div>
+            <div class="camp-tags"><span class="tag">3 Rooms</span><span class="tag">Kids Friendly</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹6,999</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏡</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Laxman Jhula · Market Area</div>
+            <div class="camp-name">The Treehouse Stay</div>
+            <div class="camp-tags"><span class="tag">Treehouse Style</span><span class="tag">River View</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹4,799</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
+          <span class="camp-badge">Luxe</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Hilltop</div>
+            <div class="camp-name">Sky Villa Rishikesh</div>
+            <div class="camp-tags"><span class="tag">Infinity View</span><span class="tag">Chef on Call</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹8,999</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="rail-end-card">
+          <a href="#cottage" class="rail-end-link">
+            <div class="rail-end-icon">→</div>
+            <div class="rail-end-text">See All<br><span>Luxury Cottages</span></div>
+          </a>
         </div>
       </div>
     </div>
@@ -837,7 +921,6 @@ footer {
           <h2 class="section-title">Budget Camps</h2>
           <p class="section-sub">Affordable adventure without compromising on the experience.</p>
         </div>
-        <a href="#camps" class="rail-see-all">See all →</a>
       </div>
       <div class="rail-scroll">
         <div class="camp-card">
@@ -862,12 +945,89 @@ footer {
         </div>
         <div class="camp-card">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏕️</div></div>
+          
           <div class="camp-body">
             <div class="camp-meta">📍 Marine Drive · Rishikesh</div>
             <div class="camp-name">Riverside Tent Village</div>
             <div class="camp-tags"><span class="tag">Group Friendly</span><span class="tag">Night Safari</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,099</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
+          <span class="camp-badge">Budget Pick</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Shivpuri · Ganga Bank</div>
+            <div class="camp-name">Camp Neelkanth</div>
+            <div class="camp-tags"><span class="tag">Riverside</span><span class="tag">Yoga Morning</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹849</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏕️</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Byasi · Forest</div>
+            <div class="camp-name">Forest Backpacker Camp</div>
+            <div class="camp-tags"><span class="tag">Dorm Tent</span><span class="tag">Bonfire</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹799</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏕️</div></div>
+          <span class="camp-badge">Weekend Special</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh · Tapovan</div>
+            <div class="camp-name">The Bonfire Camp</div>
+            <div class="camp-tags"><span class="tag">Music Night</span><span class="tag">Ganga Aarti</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,149</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Phool Chatti · Remote</div>
+            <div class="camp-name">Hidden Valley Camp</div>
+            <div class="camp-tags"><span class="tag">Remote Location</span><span class="tag">Star Gazing</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,399</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏕️</div></div>
+          <span class="camp-badge">Group Deal</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Marine Drive · Ganga</div>
+            <div class="camp-name">The River Camp</div>
+            <div class="camp-tags"><span class="tag">Upto 50 pax</span><span class="tag">DJ Night</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹950</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏕️</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Shivpuri · Cliffside</div>
+            <div class="camp-name">Cliff Top Tent Camp</div>
+            <div class="camp-tags"><span class="tag">Cliff View</span><span class="tag">Sunrise Trek</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,199</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
+          <span class="camp-badge">Solo Friendly</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh · Lakshman Jhula</div>
+            <div class="camp-name">Solo Camper's Nest</div>
+            <div class="camp-tags"><span class="tag">Solo Tent</span><span class="tag">Community Fire</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹699</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="rail-end-card">
+          <a href="#camps" class="rail-end-link">
+            <div class="rail-end-icon">→</div>
+            <div class="rail-end-text">See All<br><span>Budget Camps</span></div>
+          </a>
         </div>
       </div>
     </div>
@@ -880,7 +1040,6 @@ footer {
           <h2 class="section-title">Cozy Airbnbs</h2>
           <p class="section-sub">Unique homes &amp; apartments curated for travellers.</p>
         </div>
-        <a href="#airbnbs" class="rail-see-all">See all →</a>
       </div>
       <div class="rail-scroll">
         <div class="camp-card">
@@ -895,6 +1054,7 @@ footer {
         </div>
         <div class="camp-card">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏠</div></div>
+          
           <div class="camp-body">
             <div class="camp-meta">📍 Ram Jhula · Walk to Ganga</div>
             <div class="camp-name">Yogi's Guesthouse</div>
@@ -906,11 +1066,87 @@ footer {
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏠</div></div>
           <span class="camp-badge">New</span>
           <div class="camp-body">
-            <div class="camp-meta">📍 Tapovan · Peaceful Locality</div>
+            <div class="camp-meta">📍 Tapovan · Peaceful</div>
             <div class="camp-name">Zen Studio Apartment</div>
             <div class="camp-tags"><span class="tag">Entire Place</span><span class="tag">Netflix</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,499</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Laxman Jhula · Top Floor</div>
+            <div class="camp-name">Ganga View Apartment</div>
+            <div class="camp-tags"><span class="tag">River View</span><span class="tag">2 Beds</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹3,099</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏠</div></div>
+          <span class="camp-badge">Cozy Pick</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh Town · Central</div>
+            <div class="camp-name">Old Town Heritage Home</div>
+            <div class="camp-tags"><span class="tag">Heritage Style</span><span class="tag">Courtyard</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹2,299</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏠</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Quiet Lane</div>
+            <div class="camp-name">The Artist's Loft</div>
+            <div class="camp-tags"><span class="tag">Workspace</span><span class="tag">Terrace</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,999</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
+          <span class="camp-badge">Trending</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Shivpuri · Forest Edge</div>
+            <div class="camp-name">Treehouse Airbnb</div>
+            <div class="camp-tags"><span class="tag">Treehouse</span><span class="tag">Forest View</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹3,499</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏠</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Ram Jhula · Ganga Side</div>
+            <div class="camp-name">Sadhu's Bungalow</div>
+            <div class="camp-tags"><span class="tag">Entire Bungalow</span><span class="tag">Ganga View</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹4,199</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🏠</div></div>
+          <span class="camp-badge">Solo Pick</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Laxman Jhula · Market</div>
+            <div class="camp-name">Solo Traveller's Nook</div>
+            <div class="camp-tags"><span class="tag">Single Room</span><span class="tag">Breakfast Included</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,299</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Near Bungee</div>
+            <div class="camp-name">Adventure Base Flat</div>
+            <div class="camp-tags"><span class="tag">2 Bedrooms</span><span class="tag">Near Activities</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹2,799</strong>/night</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="rail-end-card">
+          <a href="#airbnbs" class="rail-end-link">
+            <div class="rail-end-icon">→</div>
+            <div class="rail-end-text">See All<br><span>Cozy Airbnbs</span></div>
+          </a>
         </div>
       </div>
     </div>
@@ -923,14 +1159,13 @@ footer {
           <h2 class="section-title">Rafting &amp; Activities</h2>
           <p class="section-sub">Book independently or bundle with your camp stay for the best price.</p>
         </div>
-        <a href="#activities" class="rail-see-all">See all →</a>
       </div>
       <div class="rail-scroll">
         <div class="camp-card">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🚣</div></div>
           <span class="camp-badge">Most Booked</span>
           <div class="camp-body">
-            <div class="camp-meta">📍 Shivpuri to Rishikesh · 16 km stretch</div>
+            <div class="camp-meta">📍 Shivpuri to Rishikesh · 16 km</div>
             <div class="camp-name">River Rafting</div>
             <div class="camp-tags"><span class="tag">Beginner Friendly</span><span class="tag">3 hrs</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹600</strong>/person</div><button class="btn-book">Book Now</button></div>
@@ -938,8 +1173,9 @@ footer {
         </div>
         <div class="camp-card">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🪂</div></div>
+          
           <div class="camp-body">
-            <div class="camp-meta">📍 Jonk Launching Point · 83 m drop</div>
+            <div class="camp-meta">📍 Jonk · 83 m drop</div>
             <div class="camp-name">Bungee Jumping</div>
             <div class="camp-tags"><span class="tag">83 Metres</span><span class="tag">Certified</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,500</strong>/jump</div><button class="btn-book">Book Now</button></div>
@@ -947,6 +1183,7 @@ footer {
         </div>
         <div class="camp-card">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🌳</div></div>
+          
           <div class="camp-body">
             <div class="camp-meta">📍 Rishikesh · 3 lines</div>
             <div class="camp-name">Flying Fox &amp; Zip Line</div>
@@ -955,13 +1192,80 @@ footer {
           </div>
         </div>
         <div class="camp-card">
-          <div class="camp-thumb thumb-2" style="background:linear-gradient(135deg,#2d1b69,#4c1d95)"><div class="thumb-label">🧗</div></div>
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🧗</div></div>
+          
           <div class="camp-body">
             <div class="camp-meta">📍 Rishikesh · All levels</div>
             <div class="camp-name">Rock Climbing &amp; Rappelling</div>
             <div class="camp-tags"><span class="tag">All Levels</span><span class="tag">Half Day</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹800</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏄</div></div>
+          <span class="camp-badge">New</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Marine Drive · Ganga Beach</div>
+            <div class="camp-name">Kayaking Session</div>
+            <div class="camp-tags"><span class="tag">Solo / Group</span><span class="tag">2 hrs</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹799</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🪂</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh · Sky High</div>
+            <div class="camp-name">Giant Swing</div>
+            <div class="camp-tags"><span class="tag">60 Metres</span><span class="tag">Adrenaline</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,500</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🚵</div></div>
+          <span class="camp-badge">Trending</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh · Mountain Trails</div>
+            <div class="camp-name">Mountain Biking</div>
+            <div class="camp-tags"><span class="tag">Trail Ride</span><span class="tag">3 hrs</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹699</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🏹</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Archery Range</div>
+            <div class="camp-name">Archery &amp; Shooting</div>
+            <div class="camp-tags"><span class="tag">Beginners OK</span><span class="tag">1 hr</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹499</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🌊</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Marine Drive · Ganga</div>
+            <div class="camp-name">Body Surfing &amp; Cliff Jump</div>
+            <div class="camp-tags"><span class="tag">Thrill Seekers</span><span class="tag">2 hrs</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹599</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Himalayan Foothills</div>
+            <div class="camp-name">Sunrise Yoga &amp; Trek</div>
+            <div class="camp-tags"><span class="tag">Guided</span><span class="tag">4 hrs</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹899</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="rail-end-card">
+          <a href="#activities" class="rail-end-link">
+            <div class="rail-end-icon">→</div>
+            <div class="rail-end-text">See All<br><span>Rafting &amp; Activities</span></div>
+          </a>
         </div>
       </div>
     </div>
@@ -974,7 +1278,6 @@ footer {
           <h2 class="section-title">Yoga Retreats</h2>
           <p class="section-sub">Reconnect with yourself in the yoga capital of the world.</p>
         </div>
-        <a href="#yoga" class="rail-see-all">See all →</a>
       </div>
       <div class="rail-scroll">
         <div class="camp-card">
@@ -989,6 +1292,7 @@ footer {
         </div>
         <div class="camp-card">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
+          
           <div class="camp-body">
             <div class="camp-meta">📍 Laxman Jhula · Riverside</div>
             <div class="camp-name">Ganga Meditation &amp; Yoga</div>
@@ -1000,22 +1304,92 @@ footer {
           <div class="camp-thumb thumb-3"><div class="thumb-label">🧘</div></div>
           <span class="camp-badge">Bestseller</span>
           <div class="camp-body">
-            <div class="camp-meta">📍 Neelkanth Road · Forest Retreat</div>
+            <div class="camp-meta">📍 Neelkanth Road · Forest</div>
             <div class="camp-name">Weekend Yoga Escape</div>
             <div class="camp-tags"><span class="tag">Detox</span><span class="tag">Ayurvedic Meals</span></div>
             <div class="camp-footer"><div class="camp-price">From <strong>₹7,499</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Morning Glow</div>
+            <div class="camp-name">Pranayama &amp; Breathwork</div>
+            <div class="camp-tags"><span class="tag">Daily</span><span class="tag">1.5 hrs</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹599</strong>/session</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
+          <span class="camp-badge">New</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh · Ganga Bank</div>
+            <div class="camp-name">200 Hr Yoga TTC</div>
+            <div class="camp-tags"><span class="tag">Certified</span><span class="tag">28 Days</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹45,000</strong>/course</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🧘</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Ram Jhula · Ashram</div>
+            <div class="camp-name">Nada Yoga Sound Bath</div>
+            <div class="camp-tags"><span class="tag">Sound Bowls</span><span class="tag">Evening</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹799</strong>/session</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
+          <span class="camp-badge">Trending</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Retreat Center</div>
+            <div class="camp-name">7-Day Wellness Retreat</div>
+            <div class="camp-tags"><span class="tag">Fully Catered</span><span class="tag">Spa Included</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹18,999</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Laxman Jhula · Rooftop</div>
+            <div class="camp-name">Vinyasa Flow Class</div>
+            <div class="camp-tags"><span class="tag">All Levels</span><span class="tag">Ganga View</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹499</strong>/class</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-3"><div class="thumb-label">🧘</div></div>
+          <span class="camp-badge">Group</span>
+          <div class="camp-body">
+            <div class="camp-meta">📍 Rishikesh · Ashram</div>
+            <div class="camp-name">Corporate Yoga Camp</div>
+            <div class="camp-tags"><span class="tag">Team Building</span><span class="tag">2 Days</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹3,999</strong>/person</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="camp-card">
+          <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
+          
+          <div class="camp-body">
+            <div class="camp-meta">📍 Tapovan · Private Studio</div>
+            <div class="camp-name">1-on-1 Yoga Session</div>
+            <div class="camp-tags"><span class="tag">Private</span><span class="tag">Customized</span></div>
+            <div class="camp-footer"><div class="camp-price">From <strong>₹1,299</strong>/hr</div><button class="btn-book">Book Now</button></div>
+          </div>
+        </div>
+        <div class="rail-end-card">
+          <a href="#yoga" class="rail-end-link">
+            <div class="rail-end-icon">→</div>
+            <div class="rail-end-text">See All<br><span>Yoga Retreats</span></div>
+          </a>
+        </div>
       </div>
     </div>
 
-  </div>
-</section>
-
-<!-- ACTIVITIES -->
-
-
-
+    
 
 <!-- REVIEWS -->
 <section class="section" id="reviews">
