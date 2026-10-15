@@ -687,6 +687,18 @@ footer {
 .rail-end-icon { font-size: 2rem; font-weight: 700; }
 .rail-end-text { font-size: .95rem; font-weight: 700; line-height: 1.4; }
 .rail-end-text span { font-size: .75rem; font-weight: 400; color: var(--muted,#aaa); }
+
+/* Property card clickable */
+.camp-card { cursor: pointer; transition: transform .18s, box-shadow .18s; }
+.camp-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+
+/* Detail overlay */
+#prop-overlay {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: #0f1117; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+#prop-overlay.open { display: block; }
 </style>
 
 <!-- NAV -->
@@ -804,7 +816,7 @@ footer {
         </div>
       </div>
       <div class="rail-scroll">
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
           <span class="camp-badge">Top Pick</span>
           <div class="camp-body">
@@ -814,7 +826,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,499</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏡</div></div>
           <span class="camp-badge">New</span>
           <div class="camp-body">
@@ -824,7 +836,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹4,199</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏡</div></div>
           
           <div class="camp-body">
@@ -834,7 +846,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,999</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
           <span class="camp-badge">Trending</span>
           <div class="camp-body">
@@ -844,7 +856,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,799</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏡</div></div>
           
           <div class="camp-body">
@@ -854,7 +866,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹5,499</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏡</div></div>
           <span class="camp-badge">Eco Stay</span>
           <div class="camp-body">
@@ -864,7 +876,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,499</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
           
           <div class="camp-body">
@@ -874,7 +886,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,299</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏡</div></div>
           <span class="camp-badge">Family Pick</span>
           <div class="camp-body">
@@ -884,7 +896,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹6,999</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏡</div></div>
           
           <div class="camp-body">
@@ -894,7 +906,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹4,799</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏡</div></div>
           <span class="camp-badge">Luxe</span>
           <div class="camp-body">
@@ -923,7 +935,7 @@ footer {
         </div>
       </div>
       <div class="rail-scroll">
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
           <span class="camp-badge">Best Seller</span>
           <div class="camp-body">
@@ -933,7 +945,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,299</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏕️</div></div>
           <span class="camp-badge">Popular</span>
           <div class="camp-body">
@@ -943,7 +955,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹999</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏕️</div></div>
           
           <div class="camp-body">
@@ -953,7 +965,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,099</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
           <span class="camp-badge">Budget Pick</span>
           <div class="camp-body">
@@ -963,7 +975,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹849</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏕️</div></div>
           
           <div class="camp-body">
@@ -973,7 +985,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹799</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏕️</div></div>
           <span class="camp-badge">Weekend Special</span>
           <div class="camp-body">
@@ -983,7 +995,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,149</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
           
           <div class="camp-body">
@@ -993,7 +1005,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,399</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏕️</div></div>
           <span class="camp-badge">Group Deal</span>
           <div class="camp-body">
@@ -1003,7 +1015,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹950</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏕️</div></div>
           
           <div class="camp-body">
@@ -1013,7 +1025,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,199</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏕️</div></div>
           <span class="camp-badge">Solo Friendly</span>
           <div class="camp-body">
@@ -1042,7 +1054,7 @@ footer {
         </div>
       </div>
       <div class="rail-scroll">
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
           <span class="camp-badge">Guest Favourite</span>
           <div class="camp-body">
@@ -1052,7 +1064,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,199</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏠</div></div>
           
           <div class="camp-body">
@@ -1062,7 +1074,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,799</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏠</div></div>
           <span class="camp-badge">New</span>
           <div class="camp-body">
@@ -1072,7 +1084,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,499</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
           
           <div class="camp-body">
@@ -1082,7 +1094,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,099</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏠</div></div>
           <span class="camp-badge">Cozy Pick</span>
           <div class="camp-body">
@@ -1092,7 +1104,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,299</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏠</div></div>
           
           <div class="camp-body">
@@ -1102,7 +1114,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,999</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
           <span class="camp-badge">Trending</span>
           <div class="camp-body">
@@ -1112,7 +1124,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,499</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏠</div></div>
           
           <div class="camp-body">
@@ -1122,7 +1134,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹4,199</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🏠</div></div>
           <span class="camp-badge">Solo Pick</span>
           <div class="camp-body">
@@ -1132,7 +1144,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,299</strong>/night</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🏠</div></div>
           
           <div class="camp-body">
@@ -1161,7 +1173,7 @@ footer {
         </div>
       </div>
       <div class="rail-scroll">
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🚣</div></div>
           <span class="camp-badge">Most Booked</span>
           <div class="camp-body">
@@ -1171,7 +1183,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹600</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🪂</div></div>
           
           <div class="camp-body">
@@ -1181,7 +1193,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,500</strong>/jump</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🌳</div></div>
           
           <div class="camp-body">
@@ -1191,7 +1203,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,200</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🧗</div></div>
           
           <div class="camp-body">
@@ -1201,7 +1213,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹800</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏄</div></div>
           <span class="camp-badge">New</span>
           <div class="camp-body">
@@ -1211,7 +1223,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹799</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🪂</div></div>
           
           <div class="camp-body">
@@ -1221,7 +1233,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹1,500</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🚵</div></div>
           <span class="camp-badge">Trending</span>
           <div class="camp-body">
@@ -1231,7 +1243,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹699</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🏹</div></div>
           
           <div class="camp-body">
@@ -1241,7 +1253,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹499</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🌊</div></div>
           
           <div class="camp-body">
@@ -1251,7 +1263,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹599</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
           
           <div class="camp-body">
@@ -1280,7 +1292,7 @@ footer {
         </div>
       </div>
       <div class="rail-scroll">
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
           <span class="camp-badge">Top Rated</span>
           <div class="camp-body">
@@ -1290,7 +1302,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹5,999</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
           
           <div class="camp-body">
@@ -1300,7 +1312,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹2,999</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🧘</div></div>
           <span class="camp-badge">Bestseller</span>
           <div class="camp-body">
@@ -1310,7 +1322,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹7,499</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
           
           <div class="camp-body">
@@ -1320,7 +1332,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹599</strong>/session</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
           <span class="camp-badge">New</span>
           <div class="camp-body">
@@ -1330,7 +1342,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹45,000</strong>/course</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🧘</div></div>
           
           <div class="camp-body">
@@ -1340,7 +1352,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹799</strong>/session</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
           <span class="camp-badge">Trending</span>
           <div class="camp-body">
@@ -1350,7 +1362,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹18,999</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-2"><div class="thumb-label">🧘</div></div>
           
           <div class="camp-body">
@@ -1360,7 +1372,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹499</strong>/class</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-3"><div class="thumb-label">🧘</div></div>
           <span class="camp-badge">Group</span>
           <div class="camp-body">
@@ -1370,7 +1382,7 @@ footer {
             <div class="camp-footer"><div class="camp-price">From <strong>₹3,999</strong>/person</div><button class="btn-book">Book Now</button></div>
           </div>
         </div>
-        <div class="camp-card">
+        <div class="camp-card" onclick="openProperty(this)">
           <div class="camp-thumb thumb-1"><div class="thumb-label">🧘</div></div>
           
           <div class="camp-body">
@@ -1501,4 +1513,345 @@ function handleCtaSubmit(e) {
   document.getElementById('cta-success').hidden = false;
   document.getElementById('cta-email').value = '';
 }
+
+
+// ===== PROPERTY OVERLAY =====
+var poGuests_count = 2;
+var poPricePerNight = 5499;
+
+// Category metadata
+var categoryMeta = {
+  cottage: { emoji:'🏡', bg:'linear-gradient(135deg,#1a3a2a,#2d5a3d)', label:'Luxury Cottage', price:5499, strike:'₹7,500', discount:'26% off', loc:'Tapovan, Rishikesh' },
+  budget:  { emoji:'🏕️', bg:'linear-gradient(135deg,#2a1a0a,#4a2e18)', label:'Budget Camp',    price:1899, strike:'₹2,800', discount:'32% off', loc:'Shivpuri, Rishikesh' },
+  airbnb:  { emoji:'🏠', bg:'linear-gradient(135deg,#1a2a3a,#2a3f5a)', label:'Cozy Airbnb',    price:2799, strike:'₹3,800', discount:'26% off', loc:'Jonk, Rishikesh' },
+  rafting: { emoji:'🚣', bg:'linear-gradient(135deg,#0a1a2a,#1a3050)', label:'Rafting Package', price:1299, strike:'₹1,800', discount:'28% off', loc:'Shivpuri River Stretch' },
+  yoga:    { emoji:'🧘', bg:'linear-gradient(135deg,#1e1a2a,#3a2d50)', label:'Yoga Retreat',    price:3499, strike:'₹4,800', discount:'27% off', loc:'Swargashram, Rishikesh' }
+};
+
+function openProperty(card) {
+  var nameEl = card.querySelector('.camp-name');
+  var priceEl = card.querySelector('.camp-price strong');
+  var metaEl = card.querySelector('.camp-meta');
+  var thumbEl = card.querySelector('[class*="camp-thumb"]');
+
+  var name = nameEl ? nameEl.textContent.trim() : 'Property';
+  var priceText = priceEl ? priceEl.textContent.replace(/[^0-9]/g,'') : '3499';
+  var price = parseInt(priceText) || 3499;
+  var loc = metaEl ? metaEl.textContent.replace('📍','').trim() : 'Rishikesh, Uttarakhand';
+
+  // Detect category from thumb class
+  var thumbClass = thumbEl ? thumbEl.className : '';
+  var cat = 'cottage';
+  if (thumbClass.includes('thumb-1') || thumbClass.includes('thumb-2') || thumbClass.includes('thumb-3')) {
+    // Check parent rail
+    var rail = card.closest('.rail-section');
+    if (rail) {
+      var eyebrow = rail.querySelector('.section-eyebrow');
+      var t = eyebrow ? eyebrow.textContent.toLowerCase() : '';
+      if (t.includes('budget') || t.includes('camp')) cat = 'budget';
+      else if (t.includes('airbnb')) cat = 'airbnb';
+      else if (t.includes('raft') || t.includes('activ')) cat = 'rafting';
+      else if (t.includes('yoga')) cat = 'yoga';
+      else cat = 'cottage';
+    }
+  }
+  var meta = categoryMeta[cat] || categoryMeta.cottage;
+
+  poPricePerNight = price;
+
+  // Update overlay content
+  document.getElementById('po-name').textContent = name;
+  document.getElementById('po-nav-title').textContent = name;
+  document.getElementById('po-loc').textContent = '📍 ' + loc;
+  document.getElementById('po-price').textContent = '₹' + price.toLocaleString('en-IN');
+  document.getElementById('po-strike').textContent = meta.strike;
+  document.getElementById('po-discount').textContent = meta.discount;
+  document.getElementById('po-badge-cat').textContent = meta.emoji + ' ' + meta.label;
+  document.getElementById('po-gallery-emoji').textContent = meta.emoji;
+  document.getElementById('po-gallery-bg').style.background = meta.bg;
+
+  // Reset dates
+  var today = new Date();
+  var ci = new Date(today); ci.setDate(today.getDate() + 1);
+  var co = new Date(today); co.setDate(today.getDate() + 3);
+  var fmt = function(d){ return d.toISOString().split('T')[0]; };
+  document.getElementById('po-checkin').value = fmt(ci);
+  document.getElementById('po-checkout').value = fmt(co);
+  poGuests_count = 2;
+  document.getElementById('po-guest-count').textContent = '2';
+  document.getElementById('po-guest-label').textContent = '2 Adults';
+  poUpdateBooking();
+
+  // Show overlay
+  var ov = document.getElementById('prop-overlay');
+  ov.classList.add('open');
+  ov.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closePropOverlay() {
+  document.getElementById('prop-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function poUpdateBooking() {
+  var ci = document.getElementById('po-checkin').value;
+  var co = document.getElementById('po-checkout').value;
+  if (!ci || !co) return;
+  var d1 = new Date(ci), d2 = new Date(co);
+  if (d2 <= d1) return;
+  var nights = Math.round((d2 - d1) / 86400000);
+  var base = poPricePerNight * nights;
+  var tax = Math.round(base * 0.18);
+  var total = base + tax;
+  document.getElementById('po-nights').innerHTML = '<strong>' + nights + ' night' + (nights > 1 ? 's' : '') + '</strong> selected';
+  document.getElementById('po-br-nights').textContent = '₹' + poPricePerNight.toLocaleString('en-IN') + ' × ' + nights + ' night' + (nights>1?'s':'');
+  document.getElementById('po-br-base').textContent = '₹' + base.toLocaleString('en-IN');
+  document.getElementById('po-br-tax').textContent = '₹' + tax.toLocaleString('en-IN');
+  document.getElementById('po-br-total').textContent = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('po-breakdown').style.display = 'flex';
+}
+
+function poGuests(d) {
+  poGuests_count = Math.max(1, Math.min(6, poGuests_count + d));
+  document.getElementById('po-guest-count').textContent = poGuests_count;
+  document.getElementById('po-guest-label').textContent = poGuests_count === 1 ? '1 Adult' : poGuests_count + ' Adults';
+}
+
+function poBookWhatsApp() {
+  var name = document.getElementById('po-name').textContent;
+  var ci = document.getElementById('po-checkin').value || 'Not selected';
+  var co = document.getElementById('po-checkout').value || 'Not selected';
+  var nights = (ci !== 'Not selected' && co !== 'Not selected') ? Math.round((new Date(co)-new Date(ci))/86400000) : '?';
+  var msg = encodeURIComponent('Hi! I\'d like to book:\n\n' + meta_emoji + ' *' + name + '*\n📅 Check-in: ' + ci + '\n📅 Check-out: ' + co + '\n🌙 Nights: ' + nights + '\n👥 Guests: ' + poGuests_count + '\n\nPlease confirm availability!');
+  window.open('https://wa.me/917456000000?text=' + msg, '_blank');
+}
+
+// Close overlay on escape key
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePropOverlay(); });
 </script>
+
+<!-- ===== PROPERTY DETAIL OVERLAY ===== -->
+<div id="prop-overlay">
+  <style>
+  /* ===== PROPERTY DETAIL STYLES ===== */
+  #prop-overlay { font-family: 'DM Sans', 'Nunito', system-ui, sans-serif; color: #f0ede8; }
+  #prop-overlay * { box-sizing: border-box; }
+  .po-nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));
+    background: rgba(15,17,23,.92); backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .po-back {
+    display:flex;align-items:center;gap:6px;
+    background:rgba(30,35,48,1);border:1px solid rgba(255,255,255,.14);
+    color:#f0ede8;padding:7px 16px;border-radius:50px;
+    font-size:13px;font-weight:600;cursor:pointer;
+  }
+  .po-nav-title { flex:1;font-size:15px;color:rgba(240,237,232,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .po-gallery {
+    height: clamp(220px,42vw,420px); background:#161a22;
+    display:flex;align-items:center;justify-content:center;
+    font-size:5rem; position:relative;overflow:hidden;
+  }
+  .po-gallery-bg { position:absolute;inset:0; }
+  .po-gallery-emoji { position:relative;z-index:1;filter:drop-shadow(0 4px 24px rgba(0,0,0,.5)); }
+  .po-gallery::after { content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(15,17,23,.75) 100%); }
+  .po-body {
+    max-width:840px;margin:0 auto;
+    padding: 24px max(16px,env(safe-area-inset-right,0px)) 120px max(16px,env(safe-area-inset-left,0px));
+  }
+  .po-badges { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px; }
+  .po-badge {
+    font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    padding:4px 10px;border-radius:20px;
+  }
+  .po-badge-top { background:rgba(232,130,90,.15);color:#e8825a;border:1px solid rgba(232,130,90,.3); }
+  .po-badge-avail { background:rgba(76,175,130,.15);color:#4caf82; }
+  .po-name {
+    font-family:'Playfair Display','Georgia',serif;
+    font-size:clamp(20px,5vw,32px);font-weight:700;line-height:1.2;
+    margin:0 0 10px;
+  }
+  .po-loc { color:rgba(240,237,232,.55);font-size:14px;margin-bottom:12px; }
+  .po-rating { display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(240,237,232,.55); }
+  .po-stars { color:#f5b93e; }
+  .po-rating-num { font-weight:700;color:#f0ede8; }
+  .po-stats {
+    display:flex;background:#161a22;border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;margin:18px 0;overflow:hidden;
+  }
+  .po-stat { flex:1;padding:14px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.08); }
+  .po-stat:last-child{border-right:none;}
+  .po-stat-val{font-size:17px;font-weight:700;font-family:'Playfair Display',serif;}
+  .po-stat-lbl{font-size:10px;color:rgba(240,237,232,.45);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+  .po-book-card {
+    background:#161a22;border:1px solid rgba(255,255,255,.14);border-radius:16px;
+    padding:22px;margin:0 0 24px;position:relative;overflow:hidden;
+  }
+  .po-book-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e8825a,#f0a87a);}
+  .po-price-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .po-price-amt{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,34px);font-weight:700;}
+  .po-price-per{font-size:13px;color:rgba(240,237,232,.45);margin-left:4px;}
+  .po-price-strike{font-size:13px;color:rgba(240,237,232,.35);text-decoration:line-through;margin-right:6px;}
+  .po-save{font-size:12px;font-weight:600;color:#4caf82;background:rgba(76,175,130,.12);padding:3px 8px;border-radius:20px;}
+  .po-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .po-date-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:6px;}
+  .po-date-wrap{display:flex;align-items:center;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;transition:border-color .18s;}
+  .po-date-wrap:focus-within{border-color:#e8825a;box-shadow:0 0 0 3px rgba(232,130,90,.15);}
+  .po-date-icon{padding:0 8px 0 12px;color:#e8825a;font-size:14px;}
+  .po-date-input{flex:1;background:none;border:none;outline:none;color:#f0ede8;font-size:14px;font-weight:500;padding:12px 10px 12px 0;cursor:pointer;color-scheme:dark;}
+  .po-date-input::-webkit-calendar-picker-indicator{opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}
+  .po-nights{text-align:center;padding:8px;font-size:13px;color:rgba(240,237,232,.6);background:rgba(232,130,90,.08);border-radius:8px;margin-bottom:12px;}
+  .po-nights strong{color:#e8825a;}
+  .po-guests-row{display:flex;align-items:center;justify-content:space-between;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 14px;margin-bottom:16px;}
+  .po-guests-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);}
+  .po-guests-ctrl{display:flex;align-items:center;gap:10px;}
+  .po-gst-btn{width:28px;height:28px;border-radius:50%;background:#1e2330;border:1px solid rgba(255,255,255,.14);color:#f0ede8;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .po-gst-btn:hover{border-color:#e8825a;}
+  #po-guest-count{font-size:16px;font-weight:700;min-width:20px;text-align:center;}
+  .po-book-btn{width:100%;background:linear-gradient(135deg,#e8825a,#f0a87a);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.02em;}
+  .po-breakdown{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:7px;}
+  .po-br-row{display:flex;justify-content:space-between;font-size:13px;color:rgba(240,237,232,.55);}
+  .po-br-row.total{font-size:15px;font-weight:700;color:#f0ede8;margin-top:4px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
+  .po-section-title{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,21px);font-weight:600;margin:28px 0 12px;}
+  .po-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:20px;}
+  .po-about{color:rgba(240,237,232,.65);font-size:14.5px;line-height:1.75;}
+  .po-amenities{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;}
+  .po-amenity{display:flex;align-items:center;gap:9px;background:#161a22;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:11px 13px;font-size:13px;color:rgba(240,237,232,.65);}
+  .po-highlights{display:flex;flex-direction:column;gap:12px;}
+  .po-hl{display:flex;gap:12px;align-items:flex-start;}
+  .po-hl-icon{width:38px;height:38px;border-radius:10px;background:rgba(232,130,90,.1);border:1px solid rgba(232,130,90,.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .po-hl-title{font-weight:600;font-size:14px;margin-bottom:2px;}
+  .po-hl-sub{color:rgba(240,237,232,.45);font-size:13px;line-height:1.5;}
+  .po-policy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+  .po-policy{background:#161a22;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;}
+  .po-policy-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:5px;}
+  .po-policy-val{font-size:14px;color:rgba(240,237,232,.65);}
+  .po-policy-val strong{color:#f0ede8;}
+  @media(max-width:600px){
+    .po-date-grid{grid-template-columns:1fr;}
+  }
+  </style>
+
+  <!-- Nav -->
+  <div class="po-nav">
+    <button class="po-back" onclick="closePropOverlay()">← Back</button>
+    <div class="po-nav-title" id="po-nav-title">Property</div>
+  </div>
+
+  <!-- Gallery -->
+  <div class="po-gallery" id="po-gallery">
+    <div class="po-gallery-bg" id="po-gallery-bg" style="background:linear-gradient(135deg,#1a3a2a,#2d5a3d)"></div>
+    <div class="po-gallery-emoji" id="po-gallery-emoji">🏡</div>
+  </div>
+
+  <!-- Body -->
+  <div class="po-body">
+    <div class="po-badges">
+      <span class="po-badge po-badge-top" id="po-badge-cat">🏡 Luxury Cottage</span>
+      <span class="po-badge po-badge-avail">✓ Available</span>
+    </div>
+    <h1 class="po-name" id="po-name">Property Name</h1>
+    <div class="po-loc" id="po-loc">📍 Rishikesh, Uttarakhand</div>
+    <div class="po-rating">
+      <span class="po-stars">★★★★★</span>
+      <span class="po-rating-num">4.8</span>
+      <span>(94 reviews)</span>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="po-stats">
+      <div class="po-stat"><div class="po-stat-val">3</div><div class="po-stat-lbl">Bedrooms</div></div>
+      <div class="po-stat"><div class="po-stat-val">6</div><div class="po-stat-lbl">Guests</div></div>
+      <div class="po-stat"><div class="po-stat-val">2</div><div class="po-stat-lbl">Baths</div></div>
+      <div class="po-stat"><div class="po-stat-val">180°</div><div class="po-stat-lbl">View</div></div>
+    </div>
+
+    <!-- Booking card -->
+    <div class="po-book-card">
+      <div class="po-price-row">
+        <div>
+          <span class="po-price-strike" id="po-strike">₹7,500</span>
+          <span class="po-price-amt" id="po-price">₹5,499</span>
+          <span class="po-price-per">/ night</span>
+        </div>
+        <span class="po-save" id="po-discount">26% off</span>
+      </div>
+      <div class="po-date-grid">
+        <div>
+          <label class="po-date-label">Check In</label>
+          <div class="po-date-wrap">
+            <span class="po-date-icon">📅</span>
+            <input type="date" class="po-date-input" id="po-checkin" onchange="poUpdateBooking()">
+          </div>
+        </div>
+        <div>
+          <label class="po-date-label">Check Out</label>
+          <div class="po-date-wrap">
+            <span class="po-date-icon">📅</span>
+            <input type="date" class="po-date-input" id="po-checkout" onchange="poUpdateBooking()">
+          </div>
+        </div>
+      </div>
+      <div class="po-nights" id="po-nights">Select dates to see total price</div>
+      <div class="po-guests-row">
+        <div>
+          <div class="po-guests-lbl">Guests</div>
+          <div id="po-guest-label" style="font-size:14px;font-weight:500;margin-top:3px;">2 Adults</div>
+        </div>
+        <div class="po-guests-ctrl">
+          <button class="po-gst-btn" onclick="poGuests(-1)">−</button>
+          <span id="po-guest-count">2</span>
+          <button class="po-gst-btn" onclick="poGuests(1)">+</button>
+        </div>
+      </div>
+      <button class="po-book-btn" onclick="poBookWhatsApp()">💬 Book on WhatsApp</button>
+      <div class="po-breakdown" id="po-breakdown" style="display:none">
+        <div class="po-br-row"><span id="po-br-nights">₹5,499 × 1 night</span><span id="po-br-base">₹5,499</span></div>
+        <div class="po-br-row"><span>Taxes & fees (18%)</span><span id="po-br-tax">₹989</span></div>
+        <div class="po-br-row total"><span>Total</span><span id="po-br-total">₹6,488</span></div>
+      </div>
+    </div>
+
+    <!-- Highlights -->
+    <div class="po-section-title">What makes it special</div>
+    <div class="po-divider"></div>
+    <div class="po-highlights" id="po-highlights">
+      <div class="po-hl"><div class="po-hl-icon">🏔️</div><div><div class="po-hl-title">Panoramic Himalayan View</div><div class="po-hl-sub">180° unobstructed mountain views from deck and master bedroom</div></div></div>
+      <div class="po-hl"><div class="po-hl-icon">🌿</div><div><div class="po-hl-title">Organic Breakfast Included</div><div class="po-hl-sub">Farm-to-table breakfast grown in our kitchen garden. Veg & Jain options</div></div></div>
+      <div class="po-hl"><div class="po-hl-icon">🧘</div><div><div class="po-hl-title">Private Yoga Deck</div><div class="po-hl-sub">Open-air wooden deck with mats and cushions facing the Himalayas</div></div></div>
+      <div class="po-hl"><div class="po-hl-icon">⚡</div><div><div class="po-hl-title">Adventure on Doorstep</div><div class="po-hl-sub">Rafting, bungee, trekking & ashrams all within 5 km</div></div></div>
+    </div>
+
+    <!-- Amenities -->
+    <div class="po-section-title" style="margin-top:28px;">Amenities</div>
+    <div class="po-divider"></div>
+    <div class="po-amenities">
+      <div class="po-amenity">📶 High-speed WiFi</div>
+      <div class="po-amenity">❄️ Air Conditioning</div>
+      <div class="po-amenity">🔥 Fireplace</div>
+      <div class="po-amenity">🍳 Full Kitchen</div>
+      <div class="po-amenity">🚿 Hot Water 24/7</div>
+      <div class="po-amenity">🅿️ Free Parking</div>
+      <div class="po-amenity">📺 Smart TV</div>
+      <div class="po-amenity">🏕️ Bonfire Setup</div>
+      <div class="po-amenity">🌿 Garden</div>
+      <div class="po-amenity">🐕 Pet-friendly</div>
+    </div>
+
+    <!-- Policies -->
+    <div class="po-section-title" style="margin-top:28px;">Policies</div>
+    <div class="po-divider"></div>
+    <div class="po-policy-grid">
+      <div class="po-policy"><div class="po-policy-lbl">Check In</div><div class="po-policy-val"><strong>12:00 PM</strong> onwards</div></div>
+      <div class="po-policy"><div class="po-policy-lbl">Check Out</div><div class="po-policy-val">By <strong>11:00 AM</strong></div></div>
+      <div class="po-policy"><div class="po-policy-lbl">Cancellation</div><div class="po-policy-val"><strong>Free</strong> up to 48 hrs</div></div>
+      <div class="po-policy"><div class="po-policy-lbl">Smoking</div><div class="po-policy-val">Outdoor areas only</div></div>
+      <div class="po-policy"><div class="po-policy-lbl">Alcohol</div><div class="po-policy-val"><strong>Allowed</strong></div></div>
+      <div class="po-policy"><div class="po-policy-lbl">Pets</div><div class="po-policy-val"><strong>Welcome!</strong></div></div>
+    </div>
+  </div>
+</div>
