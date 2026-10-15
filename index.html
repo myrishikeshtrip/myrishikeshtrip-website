@@ -1516,59 +1516,116 @@ function handleCtaSubmit(e) {
 
 
 // ===== PROPERTY OVERLAY =====
-var poGuests_count = 2;
-var poPricePerNight = 5499;
+var poGuestsCount = 2;
+var poPricePerNight = 3499;
+var poIsActivity = false;
 
-// Category metadata
-var categoryMeta = {
-  cottage: { emoji:'🏡', bg:'linear-gradient(135deg,#1a3a2a,#2d5a3d)', label:'Luxury Cottage', price:5499, strike:'₹7,500', discount:'26% off', loc:'Tapovan, Rishikesh' },
-  budget:  { emoji:'🏕️', bg:'linear-gradient(135deg,#2a1a0a,#4a2e18)', label:'Budget Camp',    price:1899, strike:'₹2,800', discount:'32% off', loc:'Shivpuri, Rishikesh' },
-  airbnb:  { emoji:'🏠', bg:'linear-gradient(135deg,#1a2a3a,#2a3f5a)', label:'Cozy Airbnb',    price:2799, strike:'₹3,800', discount:'26% off', loc:'Jonk, Rishikesh' },
-  rafting: { emoji:'🚣', bg:'linear-gradient(135deg,#0a1a2a,#1a3050)', label:'Rafting Package', price:1299, strike:'₹1,800', discount:'28% off', loc:'Shivpuri River Stretch' },
-  yoga:    { emoji:'🧘', bg:'linear-gradient(135deg,#1e1a2a,#3a2d50)', label:'Yoga Retreat',    price:3499, strike:'₹4,800', discount:'27% off', loc:'Swargashram, Rishikesh' }
+// STAYS metadata
+var stayMeta = {
+  cottage: { emoji:'🏡', bg:'linear-gradient(135deg,#1a3a2a,#2d5a3d)', label:'Luxury Cottage', defaultPrice:5499, strike:'₹7,500', discount:'26% off' },
+  budget:  { emoji:'🏕️', bg:'linear-gradient(135deg,#2a1a0a,#4a2e18)', label:'Budget Camp',    defaultPrice:1899, strike:'₹2,800', discount:'32% off' },
+  airbnb:  { emoji:'🏠', bg:'linear-gradient(135deg,#1a2a3a,#2a3f5a)', label:'Cozy Airbnb',    defaultPrice:2799, strike:'₹3,800', discount:'26% off' },
+  yoga:    { emoji:'🧘', bg:'linear-gradient(135deg,#1e1a2a,#3a2d50)', label:'Yoga Retreat',   defaultPrice:3499, strike:'₹4,800', discount:'27% off' }
+};
+
+// ACTIVITIES metadata
+var activityMeta = {
+  'River Rafting':       { emoji:'🚣', bg:'linear-gradient(135deg,#0a1525,#0d3050)', duration:'3–4 hrs', difficulty:'Moderate', groupSize:'6–12 people', minAge:'14+', meetingPoint:'Shivpuri Beach, Rishikesh', includes:['Safety helmet & life jacket','Trained river guide','All rafting equipment','Transport to launch point'], excludes:['Food & beverages','Personal photos/video','Travel insurance'], highlights:['Roller Coaster rapids (Grade III)','Golf Course rapids','Double Trouble rapids','16 km stretch on Ganga'], knowBefore:'Not suitable for pregnant women or those with heart conditions. Basic swimming not required but preferred.' },
+  'Bungee Jumping':      { emoji:'🤸', bg:'linear-gradient(135deg,#1a0a25,#3d1a50)', duration:'2–3 hrs', difficulty:'Thrilling', groupSize:'Individual', minAge:'18+', meetingPoint:'Mohan Chatti, Rishikesh', includes:['Professional jump master','Safety harness & equipment','Certificate of completion','1 practice session'], excludes:['Photos & videos (₹500 extra)','Transport'], highlights:['83 m highest bungee in India','Cantilever platform over Hyul River','Certified by British & New Zealand experts','Thrill rating: 10/10'], knowBefore:'Weight limit: 40–110 kg. Not suitable for people with back/neck issues, epilepsy, or heart problems.' },
+  'Camping':             { emoji:'⛺', bg:'linear-gradient(135deg,#0a1a10,#1a3a20)', duration:'1 night / 2 days', difficulty:'Easy', groupSize:'2–20 people', minAge:'5+', meetingPoint:'Shivpuri Camp Zone', includes:['Tent & sleeping bag','Bonfire & music','Dinner & breakfast','Morning nature walk'], excludes:['Alcohol','Personal toiletries'], highlights:['Riverside tent stay on Ganga banks','Bonfire under the stars','Morning yoga session','Adventure activities add-on available'], knowBefore:'Carry warm clothing for nights. Mobile signal may be weak. Eco-friendly zone — plastic not allowed.' },
+  'Trekking':            { emoji:'🥾', bg:'linear-gradient(135deg,#1a1505,#3a3010)', duration:'4–6 hrs', difficulty:'Moderate–Hard', groupSize:'4–15 people', minAge:'12+', meetingPoint:'Lakshman Jhula, Rishikesh', includes:['Expert trek guide','First-aid kit','Safety equipment','Route maps'], excludes:['Meals','Personal gear','Transport to base'], highlights:['Kunjapuri temple sunrise trek','360° Himalayan panorama','Chandrabhaga & Neelkanth routes','Wildlife sighting zone'], knowBefore:'Wear sturdy shoes. Carry 2L water minimum. Avoid trekking alone. Difficulty may vary by route.' },
+  'Zip Line':            { emoji:'🪂', bg:'linear-gradient(135deg,#0a1a25,#1a3545)', duration:'1–2 hrs', difficulty:'Easy–Moderate', groupSize:'Individual', minAge:'10+', meetingPoint:'Shivpuri Adventure Zone', includes:['All safety equipment','Trained staff supervision','Multiple line passes'], excludes:['Photos','Transport'], highlights:['750 m longest zip line in Rishikesh','150 ft height over forest canopy','Valley crossing experience','Safe & certified equipment'], knowBefore:'Weight limit: 30–100 kg. Closed-toe shoes required.' }
 };
 
 function openProperty(card) {
   var nameEl = card.querySelector('.camp-name');
   var priceEl = card.querySelector('.camp-price strong');
   var metaEl = card.querySelector('.camp-meta');
-  var thumbEl = card.querySelector('[class*="camp-thumb"]');
 
   var name = nameEl ? nameEl.textContent.trim() : 'Property';
   var priceText = priceEl ? priceEl.textContent.replace(/[^0-9]/g,'') : '3499';
   var price = parseInt(priceText) || 3499;
-  var loc = metaEl ? metaEl.textContent.replace('📍','').trim() : 'Rishikesh, Uttarakhand';
+  var loc = metaEl ? metaEl.textContent.replace(/📍/g,'').trim() : 'Rishikesh, Uttarakhand';
 
-  // Detect category from thumb class
-  var thumbClass = thumbEl ? thumbEl.className : '';
-  var cat = 'cottage';
-  if (thumbClass.includes('thumb-1') || thumbClass.includes('thumb-2') || thumbClass.includes('thumb-3')) {
-    // Check parent rail
-    var rail = card.closest('.rail-section');
-    if (rail) {
-      var eyebrow = rail.querySelector('.section-eyebrow');
-      var t = eyebrow ? eyebrow.textContent.toLowerCase() : '';
-      if (t.includes('budget') || t.includes('camp')) cat = 'budget';
-      else if (t.includes('airbnb')) cat = 'airbnb';
-      else if (t.includes('raft') || t.includes('activ')) cat = 'rafting';
-      else if (t.includes('yoga')) cat = 'yoga';
-      else cat = 'cottage';
-    }
-  }
-  var meta = categoryMeta[cat] || categoryMeta.cottage;
-
+  // Detect category from parent rail's section-eyebrow
+  var rail = card.closest('.rail-section');
+  var eyebrowEl = rail ? rail.querySelector('.section-eyebrow') : null;
+  var eyebrowText = eyebrowEl ? eyebrowEl.textContent.toLowerCase() : '';
+  
+  var isActivity = eyebrowText.includes('raft') || eyebrowText.includes('activ') || eyebrowText.includes('adventure');
+  poIsActivity = isActivity;
   poPricePerNight = price;
 
-  // Update overlay content
+  // Update gallery
+  var emoji = '🏡', bg = 'linear-gradient(135deg,#1a3a2a,#2d5a3d)', badgeLabel = 'Luxury Cottage';
+  
+  if (isActivity) {
+    // Find activity metadata by name match
+    var actKey = Object.keys(activityMeta).find(k => name.toLowerCase().includes(k.toLowerCase().split(' ')[0].toLowerCase()));
+    var act = actKey ? activityMeta[actKey] : activityMeta['River Rafting'];
+    // Try exact name match
+    if (activityMeta[name]) act = activityMeta[name];
+    
+    emoji = act.emoji; bg = act.bg; badgeLabel = 'Adventure Activity';
+    
+    // Show activity layout, hide stay layout
+    document.getElementById('po-stay-stats').style.display = 'none';
+    document.getElementById('po-activity-stats').style.display = 'flex';
+    document.getElementById('po-stay-content').style.display = 'none';
+    document.getElementById('po-activity-content').style.display = 'block';
+    document.getElementById('po-book-label-night').style.display = 'none';
+    document.getElementById('po-book-label-person').style.display = 'inline';
+    document.getElementById('po-checkin-row').style.display = 'grid';
+    document.getElementById('po-date-label-row').innerHTML = '<label class="po-date-label">Date</label>';
+    
+    // Populate activity stats
+    document.getElementById('po-act-duration').textContent = act.duration;
+    document.getElementById('po-act-difficulty').textContent = act.difficulty;
+    document.getElementById('po-act-group').textContent = act.groupSize;
+    document.getElementById('po-act-age').textContent = act.minAge;
+    
+    // Meeting point
+    document.getElementById('po-meeting-point').textContent = act.meetingPoint;
+    
+    // What's included
+    document.getElementById('po-includes-list').innerHTML = act.includes.map(i => '<li>✓ '+i+'</li>').join('');
+    document.getElementById('po-excludes-list').innerHTML = act.excludes.map(i => '<li>✗ '+i+'</li>').join('');
+    
+    // Highlights
+    document.getElementById('po-act-highlights').innerHTML = act.highlights.map(h => '<div class="po-hl"><div class="po-hl-icon">⚡</div><div><div class="po-hl-title">'+h+'</div></div></div>').join('');
+    
+    // Know before
+    document.getElementById('po-know-before').textContent = act.knowBefore;
+    
+    // Nights label → "Select date"
+    document.getElementById('po-nights').innerHTML = 'Select a date to confirm your booking';
+    
+  } else {
+    // Stay category
+    var cat = 'cottage';
+    if (eyebrowText.includes('budget') || eyebrowText.includes('camp')) cat = 'budget';
+    else if (eyebrowText.includes('airbnb')) cat = 'airbnb';
+    else if (eyebrowText.includes('yoga')) cat = 'yoga';
+    var stay = stayMeta[cat] || stayMeta.cottage;
+    emoji = stay.emoji; bg = stay.bg; badgeLabel = stay.label;
+    
+    // Show stay layout, hide activity layout
+    document.getElementById('po-stay-stats').style.display = 'flex';
+    document.getElementById('po-activity-stats').style.display = 'none';
+    document.getElementById('po-stay-content').style.display = 'block';
+    document.getElementById('po-activity-content').style.display = 'none';
+    document.getElementById('po-book-label-night').style.display = 'inline';
+    document.getElementById('po-book-label-person').style.display = 'none';
+    document.getElementById('po-checkin-row').style.display = 'grid';
+  }
+
+  document.getElementById('po-gallery-emoji').textContent = emoji;
+  document.getElementById('po-gallery-bg').style.background = bg;
+  document.getElementById('po-badge-cat').textContent = emoji + ' ' + badgeLabel;
   document.getElementById('po-name').textContent = name;
   document.getElementById('po-nav-title').textContent = name;
   document.getElementById('po-loc').textContent = '📍 ' + loc;
   document.getElementById('po-price').textContent = '₹' + price.toLocaleString('en-IN');
-  document.getElementById('po-strike').textContent = meta.strike;
-  document.getElementById('po-discount').textContent = meta.discount;
-  document.getElementById('po-badge-cat').textContent = meta.emoji + ' ' + meta.label;
-  document.getElementById('po-gallery-emoji').textContent = meta.emoji;
-  document.getElementById('po-gallery-bg').style.background = meta.bg;
 
   // Reset dates
   var today = new Date();
@@ -1577,12 +1634,12 @@ function openProperty(card) {
   var fmt = function(d){ return d.toISOString().split('T')[0]; };
   document.getElementById('po-checkin').value = fmt(ci);
   document.getElementById('po-checkout').value = fmt(co);
-  poGuests_count = 2;
+  poGuestsCount = 2;
   document.getElementById('po-guest-count').textContent = '2';
-  document.getElementById('po-guest-label').textContent = '2 Adults';
+  document.getElementById('po-guest-label').textContent = isActivity ? '2 People' : '2 Adults';
+  document.getElementById('po-guest-lbl-text').textContent = isActivity ? 'People' : 'Guests';
   poUpdateBooking();
 
-  // Show overlay
   var ov = document.getElementById('prop-overlay');
   ov.classList.add('open');
   ov.scrollTop = 0;
@@ -1601,11 +1658,16 @@ function poUpdateBooking() {
   var d1 = new Date(ci), d2 = new Date(co);
   if (d2 <= d1) return;
   var nights = Math.round((d2 - d1) / 86400000);
-  var base = poPricePerNight * nights;
+  var base = poPricePerNight * (poIsActivity ? poGuestsCount : nights);
   var tax = Math.round(base * 0.18);
   var total = base + tax;
-  document.getElementById('po-nights').innerHTML = '<strong>' + nights + ' night' + (nights > 1 ? 's' : '') + '</strong> selected';
-  document.getElementById('po-br-nights').textContent = '₹' + poPricePerNight.toLocaleString('en-IN') + ' × ' + nights + ' night' + (nights>1?'s':'');
+  if (poIsActivity) {
+    document.getElementById('po-nights').innerHTML = '<strong>' + poGuestsCount + ' person' + (poGuestsCount > 1 ? 's' : '') + '</strong> · ' + new Date(ci).toLocaleDateString('en-IN', {day:'numeric',month:'short'});
+    document.getElementById('po-br-nights').textContent = '₹' + poPricePerNight.toLocaleString('en-IN') + ' × ' + poGuestsCount + ' person' + (poGuestsCount>1?'s':'');
+  } else {
+    document.getElementById('po-nights').innerHTML = '<strong>' + nights + ' night' + (nights > 1 ? 's' : '') + '</strong> selected';
+    document.getElementById('po-br-nights').textContent = '₹' + poPricePerNight.toLocaleString('en-IN') + ' × ' + nights + ' night' + (nights>1?'s':'');
+  }
   document.getElementById('po-br-base').textContent = '₹' + base.toLocaleString('en-IN');
   document.getElementById('po-br-tax').textContent = '₹' + tax.toLocaleString('en-IN');
   document.getElementById('po-br-total').textContent = '₹' + total.toLocaleString('en-IN');
@@ -1613,9 +1675,11 @@ function poUpdateBooking() {
 }
 
 function poGuests(d) {
-  poGuests_count = Math.max(1, Math.min(6, poGuests_count + d));
-  document.getElementById('po-guest-count').textContent = poGuests_count;
-  document.getElementById('po-guest-label').textContent = poGuests_count === 1 ? '1 Adult' : poGuests_count + ' Adults';
+  poGuestsCount = Math.max(1, Math.min(poIsActivity ? 20 : 6, poGuestsCount + d));
+  document.getElementById('po-guest-count').textContent = poGuestsCount;
+  var label = poIsActivity ? ' People' : (poGuestsCount === 1 ? ' Adult' : ' Adults');
+  document.getElementById('po-guest-label').textContent = poGuestsCount + label;
+  poUpdateBooking();
 }
 
 function poBookWhatsApp() {
@@ -1623,184 +1687,180 @@ function poBookWhatsApp() {
   var ci = document.getElementById('po-checkin').value || 'Not selected';
   var co = document.getElementById('po-checkout').value || 'Not selected';
   var nights = (ci !== 'Not selected' && co !== 'Not selected') ? Math.round((new Date(co)-new Date(ci))/86400000) : '?';
-  var msg = encodeURIComponent('Hi! I\'d like to book:\n\n' + meta_emoji + ' *' + name + '*\n📅 Check-in: ' + ci + '\n📅 Check-out: ' + co + '\n🌙 Nights: ' + nights + '\n👥 Guests: ' + poGuests_count + '\n\nPlease confirm availability!');
+  var msg;
+  if (poIsActivity) {
+    msg = encodeURIComponent('Hi! I\'d like to book:\n\n🎯 *' + name + '*\n📅 Date: ' + ci + '\n👥 People: ' + poGuestsCount + '\n\nPlease confirm availability and total price!');
+  } else {
+    msg = encodeURIComponent('Hi! I\'d like to book:\n\n🏡 *' + name + '*\n📅 Check-in: ' + ci + '\n📅 Check-out: ' + co + '\n🌙 Nights: ' + nights + '\n👥 Guests: ' + poGuestsCount + '\n\nPlease confirm availability!');
+  }
   window.open('https://wa.me/917456000000?text=' + msg, '_blank');
 }
 
-// Close overlay on escape key
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePropOverlay(); });
 </script>
 
 <!-- ===== PROPERTY DETAIL OVERLAY ===== -->
 <div id="prop-overlay">
   <style>
-  /* ===== PROPERTY DETAIL STYLES ===== */
-  #prop-overlay { font-family: 'DM Sans', 'Nunito', system-ui, sans-serif; color: #f0ede8; }
-  #prop-overlay * { box-sizing: border-box; }
-  .po-nav {
-    position: sticky; top: 0; z-index: 10;
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));
-    background: rgba(15,17,23,.92); backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255,255,255,.08);
-  }
-  .po-back {
-    display:flex;align-items:center;gap:6px;
-    background:rgba(30,35,48,1);border:1px solid rgba(255,255,255,.14);
-    color:#f0ede8;padding:7px 16px;border-radius:50px;
-    font-size:13px;font-weight:600;cursor:pointer;
-  }
-  .po-nav-title { flex:1;font-size:15px;color:rgba(240,237,232,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .po-gallery {
-    height: clamp(220px,42vw,420px); background:#161a22;
-    display:flex;align-items:center;justify-content:center;
-    font-size:5rem; position:relative;overflow:hidden;
-  }
+  #prop-overlay { font-family: 'DM Sans','Nunito',system-ui,sans-serif; color:#f0ede8; background:#0f1117; }
+  #prop-overlay * { box-sizing:border-box; }
+  .po-nav { position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:12px;padding:14px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));background:rgba(15,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08); }
+  .po-back { display:flex;align-items:center;gap:6px;background:rgba(30,35,48,1);border:1px solid rgba(255,255,255,.14);color:#f0ede8;padding:7px 16px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer; }
+  .po-nav-title { flex:1;font-size:15px;color:rgba(240,237,232,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .po-gallery { height:clamp(200px,40vw,400px);background:#161a22;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden; }
   .po-gallery-bg { position:absolute;inset:0; }
-  .po-gallery-emoji { position:relative;z-index:1;filter:drop-shadow(0 4px 24px rgba(0,0,0,.5)); }
+  .po-gallery-emoji { position:relative;z-index:1;font-size:clamp(3.5rem,12vw,5.5rem);filter:drop-shadow(0 4px 24px rgba(0,0,0,.5)); }
   .po-gallery::after { content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(15,17,23,.75) 100%); }
-  .po-body {
-    max-width:840px;margin:0 auto;
-    padding: 24px max(16px,env(safe-area-inset-right,0px)) 120px max(16px,env(safe-area-inset-left,0px));
-  }
+  .po-body { max-width:840px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 100px max(16px,env(safe-area-inset-left,0px)); }
   .po-badges { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px; }
-  .po-badge {
-    font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-    padding:4px 10px;border-radius:20px;
-  }
+  .po-badge { font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px; }
   .po-badge-top { background:rgba(232,130,90,.15);color:#e8825a;border:1px solid rgba(232,130,90,.3); }
   .po-badge-avail { background:rgba(76,175,130,.15);color:#4caf82; }
-  .po-name {
-    font-family:'Playfair Display','Georgia',serif;
-    font-size:clamp(20px,5vw,32px);font-weight:700;line-height:1.2;
-    margin:0 0 10px;
-  }
-  .po-loc { color:rgba(240,237,232,.55);font-size:14px;margin-bottom:12px; }
-  .po-rating { display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(240,237,232,.55); }
+  .po-name { font-family:'Playfair Display','Georgia',serif;font-size:clamp(20px,5vw,32px);font-weight:700;line-height:1.2;margin:0 0 10px; }
+  .po-loc { color:rgba(240,237,232,.5);font-size:14px;margin-bottom:12px; }
+  .po-rating { display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(240,237,232,.5); }
   .po-stars { color:#f5b93e; }
   .po-rating-num { font-weight:700;color:#f0ede8; }
-  .po-stats {
-    display:flex;background:#161a22;border:1px solid rgba(255,255,255,.08);
-    border-radius:14px;margin:18px 0;overflow:hidden;
-  }
+  /* Stats rows */
+  .po-stats { display:flex;background:#161a22;border:1px solid rgba(255,255,255,.08);border-radius:14px;margin:18px 0;overflow:hidden; }
   .po-stat { flex:1;padding:14px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.08); }
   .po-stat:last-child{border-right:none;}
-  .po-stat-val{font-size:17px;font-weight:700;font-family:'Playfair Display',serif;}
-  .po-stat-lbl{font-size:10px;color:rgba(240,237,232,.45);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
-  .po-book-card {
-    background:#161a22;border:1px solid rgba(255,255,255,.14);border-radius:16px;
-    padding:22px;margin:0 0 24px;position:relative;overflow:hidden;
-  }
+  .po-stat-val{font-size:15px;font-weight:700;font-family:'Playfair Display',serif;line-height:1.2;}
+  .po-stat-lbl{font-size:10px;color:rgba(240,237,232,.4);text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
+  /* Activity difficulty colors */
+  .diff-easy{color:#4caf82;}
+  .diff-moderate{color:#f5b93e;}
+  .diff-hard{color:#e8825a;}
+  .diff-thrilling{color:#e8374a;}
+  /* Booking card */
+  .po-book-card { background:#161a22;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px;margin:0 0 22px;position:relative;overflow:hidden; }
   .po-book-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e8825a,#f0a87a);}
-  .po-price-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .po-price-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
   .po-price-amt{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,34px);font-weight:700;}
-  .po-price-per{font-size:13px;color:rgba(240,237,232,.45);margin-left:4px;}
-  .po-price-strike{font-size:13px;color:rgba(240,237,232,.35);text-decoration:line-through;margin-right:6px;}
-  .po-save{font-size:12px;font-weight:600;color:#4caf82;background:rgba(76,175,130,.12);padding:3px 8px;border-radius:20px;}
-  .po-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .po-price-per{font-size:13px;color:rgba(240,237,232,.4);margin-left:3px;}
+  .po-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px;}
   .po-date-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:6px;}
   .po-date-wrap{display:flex;align-items:center;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;transition:border-color .18s;}
   .po-date-wrap:focus-within{border-color:#e8825a;box-shadow:0 0 0 3px rgba(232,130,90,.15);}
-  .po-date-icon{padding:0 8px 0 12px;color:#e8825a;font-size:14px;}
+  .po-date-icon{padding:0 8px 0 11px;color:#e8825a;font-size:14px;}
   .po-date-input{flex:1;background:none;border:none;outline:none;color:#f0ede8;font-size:14px;font-weight:500;padding:12px 10px 12px 0;cursor:pointer;color-scheme:dark;}
   .po-date-input::-webkit-calendar-picker-indicator{opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}
-  .po-nights{text-align:center;padding:8px;font-size:13px;color:rgba(240,237,232,.6);background:rgba(232,130,90,.08);border-radius:8px;margin-bottom:12px;}
+  .po-nights{text-align:center;padding:8px 12px;font-size:13px;color:rgba(240,237,232,.6);background:rgba(232,130,90,.08);border-radius:8px;margin-bottom:11px;}
   .po-nights strong{color:#e8825a;}
-  .po-guests-row{display:flex;align-items:center;justify-content:space-between;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 14px;margin-bottom:16px;}
-  .po-guests-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);}
+  .po-guests-row{display:flex;align-items:center;justify-content:space-between;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 14px;margin-bottom:15px;}
   .po-guests-ctrl{display:flex;align-items:center;gap:10px;}
   .po-gst-btn{width:28px;height:28px;border-radius:50%;background:#1e2330;border:1px solid rgba(255,255,255,.14);color:#f0ede8;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .po-gst-btn:hover{border-color:#e8825a;}
   #po-guest-count{font-size:16px;font-weight:700;min-width:20px;text-align:center;}
   .po-book-btn{width:100%;background:linear-gradient(135deg,#e8825a,#f0a87a);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.02em;}
-  .po-breakdown{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:7px;}
-  .po-br-row{display:flex;justify-content:space-between;font-size:13px;color:rgba(240,237,232,.55);}
+  .po-breakdown{margin-top:13px;padding-top:13px;border-top:1px solid rgba(255,255,255,.08);flex-direction:column;gap:7px;}
+  .po-br-row{display:flex;justify-content:space-between;font-size:13px;color:rgba(240,237,232,.5);}
   .po-br-row.total{font-size:15px;font-weight:700;color:#f0ede8;margin-top:4px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
-  .po-section-title{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,21px);font-weight:600;margin:28px 0 12px;}
-  .po-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:20px;}
-  .po-about{color:rgba(240,237,232,.65);font-size:14.5px;line-height:1.75;}
-  .po-amenities{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;}
-  .po-amenity{display:flex;align-items:center;gap:9px;background:#161a22;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:11px 13px;font-size:13px;color:rgba(240,237,232,.65);}
-  .po-highlights{display:flex;flex-direction:column;gap:12px;}
+  /* Sections */
+  .po-section-title{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,20px);font-weight:600;margin:26px 0 10px;}
+  .po-divider{height:1px;background:rgba(255,255,255,.07);margin-bottom:16px;}
+  .po-highlights{display:flex;flex-direction:column;gap:10px;}
   .po-hl{display:flex;gap:12px;align-items:flex-start;}
-  .po-hl-icon{width:38px;height:38px;border-radius:10px;background:rgba(232,130,90,.1);border:1px solid rgba(232,130,90,.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-  .po-hl-title{font-weight:600;font-size:14px;margin-bottom:2px;}
-  .po-hl-sub{color:rgba(240,237,232,.45);font-size:13px;line-height:1.5;}
-  .po-policy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
-  .po-policy{background:#161a22;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;}
-  .po-policy-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:5px;}
-  .po-policy-val{font-size:14px;color:rgba(240,237,232,.65);}
+  .po-hl-icon{width:36px;height:36px;border-radius:9px;background:rgba(232,130,90,.1);border:1px solid rgba(232,130,90,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .po-hl-title{font-weight:600;font-size:13.5px;margin-bottom:1px;color:#f0ede8;}
+  .po-hl-sub{color:rgba(240,237,232,.45);font-size:12.5px;line-height:1.5;}
+  /* Includes/Excludes */
+  .po-incl-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .po-incl-block h4{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;}
+  .po-incl-block.yes h4{color:#4caf82;}
+  .po-incl-block.no h4{color:#e8374a;}
+  .po-incl-block ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+  .po-incl-block ul li{font-size:13px;color:rgba(240,237,232,.65);display:flex;align-items:flex-start;gap:6px;}
+  /* Meeting point */
+  .po-meeting{background:#161a22;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;}
+  .po-meeting-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+  .po-meeting-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:4px;}
+  .po-meeting-val{font-size:14px;color:#f0ede8;font-weight:500;}
+  /* Know before */
+  .po-know{background:rgba(245,185,62,.06);border:1px solid rgba(245,185,62,.2);border-radius:12px;padding:14px 16px;font-size:13.5px;color:rgba(240,237,232,.7);line-height:1.65;}
+  .po-know::before{content:'⚠️  ';font-size:14px;}
+  /* Stay amenities */
+  .po-amenities{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
+  .po-amenity{display:flex;align-items:center;gap:8px;background:#161a22;border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:10px 12px;font-size:13px;color:rgba(240,237,232,.6);}
+  .po-policy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px;}
+  .po-policy{background:#161a22;border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:11px 13px;}
+  .po-policy-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.35);margin-bottom:4px;}
+  .po-policy-val{font-size:13.5px;color:rgba(240,237,232,.65);}
   .po-policy-val strong{color:#f0ede8;}
-  @media(max-width:600px){
+  @media(max-width:560px){
     .po-date-grid{grid-template-columns:1fr;}
+    .po-incl-grid{grid-template-columns:1fr;}
   }
   </style>
 
-  <!-- Nav -->
   <div class="po-nav">
     <button class="po-back" onclick="closePropOverlay()">← Back</button>
     <div class="po-nav-title" id="po-nav-title">Property</div>
   </div>
 
-  <!-- Gallery -->
   <div class="po-gallery" id="po-gallery">
-    <div class="po-gallery-bg" id="po-gallery-bg" style="background:linear-gradient(135deg,#1a3a2a,#2d5a3d)"></div>
+    <div class="po-gallery-bg" id="po-gallery-bg"></div>
     <div class="po-gallery-emoji" id="po-gallery-emoji">🏡</div>
   </div>
 
-  <!-- Body -->
   <div class="po-body">
     <div class="po-badges">
-      <span class="po-badge po-badge-top" id="po-badge-cat">🏡 Luxury Cottage</span>
+      <span class="po-badge po-badge-top" id="po-badge-cat">🏡 Property</span>
       <span class="po-badge po-badge-avail">✓ Available</span>
     </div>
-    <h1 class="po-name" id="po-name">Property Name</h1>
-    <div class="po-loc" id="po-loc">📍 Rishikesh, Uttarakhand</div>
-    <div class="po-rating">
-      <span class="po-stars">★★★★★</span>
-      <span class="po-rating-num">4.8</span>
-      <span>(94 reviews)</span>
-    </div>
+    <h1 class="po-name" id="po-name">Name</h1>
+    <div class="po-loc" id="po-loc">📍 Rishikesh</div>
+    <div class="po-rating"><span class="po-stars">★★★★★</span><span class="po-rating-num">4.8</span><span>(94 reviews)</span></div>
 
-    <!-- Quick stats -->
-    <div class="po-stats">
+    <!-- STAY stats -->
+    <div class="po-stats" id="po-stay-stats">
       <div class="po-stat"><div class="po-stat-val">3</div><div class="po-stat-lbl">Bedrooms</div></div>
       <div class="po-stat"><div class="po-stat-val">6</div><div class="po-stat-lbl">Guests</div></div>
       <div class="po-stat"><div class="po-stat-val">2</div><div class="po-stat-lbl">Baths</div></div>
       <div class="po-stat"><div class="po-stat-val">180°</div><div class="po-stat-lbl">View</div></div>
     </div>
 
+    <!-- ACTIVITY stats -->
+    <div class="po-stats" id="po-activity-stats" style="display:none">
+      <div class="po-stat"><div class="po-stat-val" id="po-act-duration">3–4 hrs</div><div class="po-stat-lbl">Duration</div></div>
+      <div class="po-stat"><div class="po-stat-val" id="po-act-difficulty">Moderate</div><div class="po-stat-lbl">Difficulty</div></div>
+      <div class="po-stat"><div class="po-stat-val" id="po-act-group">6–12</div><div class="po-stat-lbl">Group Size</div></div>
+      <div class="po-stat"><div class="po-stat-val" id="po-act-age">14+</div><div class="po-stat-lbl">Min. Age</div></div>
+    </div>
+
     <!-- Booking card -->
     <div class="po-book-card">
       <div class="po-price-row">
         <div>
-          <span class="po-price-strike" id="po-strike">₹7,500</span>
           <span class="po-price-amt" id="po-price">₹5,499</span>
-          <span class="po-price-per">/ night</span>
+          <span class="po-price-per">/ <span id="po-book-label-night">night</span><span id="po-book-label-person" style="display:none">person</span></span>
         </div>
-        <span class="po-save" id="po-discount">26% off</span>
       </div>
-      <div class="po-date-grid">
+      <div id="po-checkin-row" class="po-date-grid" style="grid-template-columns:1fr 1fr">
+        <div id="po-date-label-row">
+          <label class="po-date-label" for="po-checkin">Check In</label>
+        </div>
         <div>
-          <label class="po-date-label">Check In</label>
+          <label class="po-date-label" for="po-checkout">Check Out</label>
+        </div>
+        <div>
           <div class="po-date-wrap">
             <span class="po-date-icon">📅</span>
             <input type="date" class="po-date-input" id="po-checkin" onchange="poUpdateBooking()">
           </div>
         </div>
         <div>
-          <label class="po-date-label">Check Out</label>
           <div class="po-date-wrap">
             <span class="po-date-icon">📅</span>
             <input type="date" class="po-date-input" id="po-checkout" onchange="poUpdateBooking()">
           </div>
         </div>
       </div>
-      <div class="po-nights" id="po-nights">Select dates to see total price</div>
+      <div class="po-nights" id="po-nights">Select dates</div>
       <div class="po-guests-row">
         <div>
-          <div class="po-guests-lbl">Guests</div>
-          <div id="po-guest-label" style="font-size:14px;font-weight:500;margin-top:3px;">2 Adults</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);" id="po-guest-lbl-text">Guests</div>
+          <div id="po-guest-label" style="font-size:14px;font-weight:500;margin-top:3px;color:#f0ede8;">2 Adults</div>
         </div>
         <div class="po-guests-ctrl">
           <button class="po-gst-btn" onclick="poGuests(-1)">−</button>
@@ -1810,48 +1870,79 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
       </div>
       <button class="po-book-btn" onclick="poBookWhatsApp()">💬 Book on WhatsApp</button>
       <div class="po-breakdown" id="po-breakdown" style="display:none">
-        <div class="po-br-row"><span id="po-br-nights">₹5,499 × 1 night</span><span id="po-br-base">₹5,499</span></div>
-        <div class="po-br-row"><span>Taxes & fees (18%)</span><span id="po-br-tax">₹989</span></div>
-        <div class="po-br-row total"><span>Total</span><span id="po-br-total">₹6,488</span></div>
+        <div class="po-br-row"><span id="po-br-nights">Base</span><span id="po-br-base">₹0</span></div>
+        <div class="po-br-row"><span>Taxes & fees (18%)</span><span id="po-br-tax">₹0</span></div>
+        <div class="po-br-row total"><span>Total</span><span id="po-br-total">₹0</span></div>
       </div>
     </div>
 
-    <!-- Highlights -->
-    <div class="po-section-title">What makes it special</div>
-    <div class="po-divider"></div>
-    <div class="po-highlights" id="po-highlights">
-      <div class="po-hl"><div class="po-hl-icon">🏔️</div><div><div class="po-hl-title">Panoramic Himalayan View</div><div class="po-hl-sub">180° unobstructed mountain views from deck and master bedroom</div></div></div>
-      <div class="po-hl"><div class="po-hl-icon">🌿</div><div><div class="po-hl-title">Organic Breakfast Included</div><div class="po-hl-sub">Farm-to-table breakfast grown in our kitchen garden. Veg & Jain options</div></div></div>
-      <div class="po-hl"><div class="po-hl-icon">🧘</div><div><div class="po-hl-title">Private Yoga Deck</div><div class="po-hl-sub">Open-air wooden deck with mats and cushions facing the Himalayas</div></div></div>
-      <div class="po-hl"><div class="po-hl-icon">⚡</div><div><div class="po-hl-title">Adventure on Doorstep</div><div class="po-hl-sub">Rafting, bungee, trekking & ashrams all within 5 km</div></div></div>
+    <!-- ===== ACTIVITY CONTENT ===== -->
+    <div id="po-activity-content" style="display:none">
+      <div class="po-section-title">Highlights</div>
+      <div class="po-divider"></div>
+      <div class="po-highlights" id="po-act-highlights"></div>
+
+      <div class="po-section-title" style="margin-top:24px;">What's Included</div>
+      <div class="po-divider"></div>
+      <div class="po-incl-grid">
+        <div class="po-incl-block yes">
+          <h4>✓ Included</h4>
+          <ul id="po-includes-list"></ul>
+        </div>
+        <div class="po-incl-block no">
+          <h4>✗ Not Included</h4>
+          <ul id="po-excludes-list"></ul>
+        </div>
+      </div>
+
+      <div class="po-section-title" style="margin-top:24px;">Meeting Point</div>
+      <div class="po-divider"></div>
+      <div class="po-meeting">
+        <div class="po-meeting-icon">📍</div>
+        <div>
+          <div class="po-meeting-label">Start Location</div>
+          <div class="po-meeting-val" id="po-meeting-point">Shivpuri Beach</div>
+        </div>
+      </div>
+
+      <div class="po-section-title" style="margin-top:24px;">Know Before You Go</div>
+      <div class="po-divider"></div>
+      <div class="po-know" id="po-know-before"></div>
     </div>
 
-    <!-- Amenities -->
-    <div class="po-section-title" style="margin-top:28px;">Amenities</div>
-    <div class="po-divider"></div>
-    <div class="po-amenities">
-      <div class="po-amenity">📶 High-speed WiFi</div>
-      <div class="po-amenity">❄️ Air Conditioning</div>
-      <div class="po-amenity">🔥 Fireplace</div>
-      <div class="po-amenity">🍳 Full Kitchen</div>
-      <div class="po-amenity">🚿 Hot Water 24/7</div>
-      <div class="po-amenity">🅿️ Free Parking</div>
-      <div class="po-amenity">📺 Smart TV</div>
-      <div class="po-amenity">🏕️ Bonfire Setup</div>
-      <div class="po-amenity">🌿 Garden</div>
-      <div class="po-amenity">🐕 Pet-friendly</div>
-    </div>
-
-    <!-- Policies -->
-    <div class="po-section-title" style="margin-top:28px;">Policies</div>
-    <div class="po-divider"></div>
-    <div class="po-policy-grid">
-      <div class="po-policy"><div class="po-policy-lbl">Check In</div><div class="po-policy-val"><strong>12:00 PM</strong> onwards</div></div>
-      <div class="po-policy"><div class="po-policy-lbl">Check Out</div><div class="po-policy-val">By <strong>11:00 AM</strong></div></div>
-      <div class="po-policy"><div class="po-policy-lbl">Cancellation</div><div class="po-policy-val"><strong>Free</strong> up to 48 hrs</div></div>
-      <div class="po-policy"><div class="po-policy-lbl">Smoking</div><div class="po-policy-val">Outdoor areas only</div></div>
-      <div class="po-policy"><div class="po-policy-lbl">Alcohol</div><div class="po-policy-val"><strong>Allowed</strong></div></div>
-      <div class="po-policy"><div class="po-policy-lbl">Pets</div><div class="po-policy-val"><strong>Welcome!</strong></div></div>
+    <!-- ===== STAY CONTENT ===== -->
+    <div id="po-stay-content">
+      <div class="po-section-title">What makes it special</div>
+      <div class="po-divider"></div>
+      <div class="po-highlights">
+        <div class="po-hl"><div class="po-hl-icon">🏔️</div><div><div class="po-hl-title">Panoramic Himalayan View</div><div class="po-hl-sub">180° unobstructed mountain views from deck and master bedroom</div></div></div>
+        <div class="po-hl"><div class="po-hl-icon">🌿</div><div><div class="po-hl-title">Organic Breakfast Included</div><div class="po-hl-sub">Farm-to-table, Veg & Jain options available</div></div></div>
+        <div class="po-hl"><div class="po-hl-icon">🧘</div><div><div class="po-hl-title">Private Yoga Deck</div><div class="po-hl-sub">Open-air wooden deck with mats, facing the Himalayas</div></div></div>
+        <div class="po-hl"><div class="po-hl-icon">⚡</div><div><div class="po-hl-title">Adventure on Doorstep</div><div class="po-hl-sub">Rafting, bungee, trekking & ashrams within 5 km</div></div></div>
+      </div>
+      <div class="po-section-title" style="margin-top:24px;">Amenities</div>
+      <div class="po-divider"></div>
+      <div class="po-amenities">
+        <div class="po-amenity">📶 High-speed WiFi</div>
+        <div class="po-amenity">❄️ Air Conditioning</div>
+        <div class="po-amenity">🔥 Fireplace</div>
+        <div class="po-amenity">🍳 Full Kitchen</div>
+        <div class="po-amenity">🚿 Hot Water 24/7</div>
+        <div class="po-amenity">🅿️ Free Parking</div>
+        <div class="po-amenity">📺 Smart TV</div>
+        <div class="po-amenity">🏕️ Bonfire Setup</div>
+        <div class="po-amenity">🐕 Pet-friendly</div>
+      </div>
+      <div class="po-section-title" style="margin-top:24px;">Policies</div>
+      <div class="po-divider"></div>
+      <div class="po-policy-grid">
+        <div class="po-policy"><div class="po-policy-lbl">Check In</div><div class="po-policy-val"><strong>12:00 PM</strong> onwards</div></div>
+        <div class="po-policy"><div class="po-policy-lbl">Check Out</div><div class="po-policy-val">By <strong>11:00 AM</strong></div></div>
+        <div class="po-policy"><div class="po-policy-lbl">Cancellation</div><div class="po-policy-val"><strong>Free</strong> up to 48 hrs</div></div>
+        <div class="po-policy"><div class="po-policy-lbl">Smoking</div><div class="po-policy-val">Outdoor only</div></div>
+        <div class="po-policy"><div class="po-policy-lbl">Alcohol</div><div class="po-policy-val"><strong>Allowed</strong></div></div>
+        <div class="po-policy"><div class="po-policy-lbl">Pets</div><div class="po-policy-val"><strong>Welcome!</strong></div></div>
+      </div>
     </div>
   </div>
 </div>
