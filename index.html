@@ -1593,15 +1593,6 @@ function openProperty(card) {
     
     // Highlights
     document.getElementById('po-act-highlights').innerHTML = act.highlights.map(h => '<div class="po-hl"><div class="po-hl-icon">⚡</div><div><div class="po-hl-title">'+h+'</div></div></div>').join('');
-    var distRow = document.getElementById('po-distance-row');
-    if (distRow) {
-      if (name === 'River Rafting') {
-        distRow.style.display = 'block';
-        document.getElementById('po-distance-select').value = '16';
-        poUpdateDistance();
-      } else { distRow.style.display = 'none'; }
-    }
-    
     // Know before
     document.getElementById('po-know-before').textContent = act.knowBefore;
     
@@ -1634,6 +1625,14 @@ function openProperty(card) {
   document.getElementById('po-nav-title').textContent = name;
   document.getElementById('po-loc').textContent = '📍 ' + loc;
   document.getElementById('po-price').textContent = '₹' + price.toLocaleString('en-IN');
+  var distRow = document.getElementById('po-distance-row');
+  if (distRow) {
+    if (name === 'River Rafting') {
+      distRow.style.display = 'block';
+      document.getElementById('po-distance-select').value = '16';
+      poUpdateDistance();
+    } else { distRow.style.display = 'none'; }
+  }
 
   // Reset dates
   var today = new Date();
