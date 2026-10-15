@@ -1530,7 +1530,7 @@ var stayMeta = {
 
 // ACTIVITIES metadata
 var activityMeta = {
-  'River Rafting':       { emoji:'🚣', bg:'linear-gradient(135deg,#0a1525,#0d3050)', duration:'3–4 hrs', difficulty:'Moderate', groupSize:'6–12 people', minAge:'14+', meetingPoint:'Shivpuri Beach, Rishikesh', includes:['Safety helmet & life jacket','Trained river guide','All rafting equipment','Transport to launch point'], excludes:['Food & beverages','Personal photos/video','Travel insurance'], highlights:['Roller Coaster rapids (Grade III)','Golf Course rapids','Double Trouble rapids','16 km stretch on Ganga'], knowBefore:'Not suitable for pregnant women or those with heart conditions. Basic swimming not required but preferred.' },
+  'River Rafting':       { emoji:'🚣', bg:'linear-gradient(135deg,#0a1525,#0d3050)', duration:'2–3 hrs', difficulty:'Moderate', groupSize:'6–12 people', minAge:'14+', meetingPoint:'Shivpuri Beach, Rishikesh', includes:['Safety helmet & life jacket','Trained river guide','All rafting equipment','Transport to launch point'], excludes:['Food & beverages','Personal photos/video','Travel insurance'], highlights:['Roller Coaster rapids (Grade III)','Golf Course rapids','Double Trouble rapids','16 km stretch on Ganga'], knowBefore:'Not suitable for pregnant women or those with heart conditions. Basic swimming not required but preferred.' },
   'Bungee Jumping':      { emoji:'🤸', bg:'linear-gradient(135deg,#1a0a25,#3d1a50)', duration:'2–3 hrs', difficulty:'Thrilling', groupSize:'Individual', minAge:'18+', meetingPoint:'Mohan Chatti, Rishikesh', includes:['Professional jump master','Safety harness & equipment','Certificate of completion','1 practice session'], excludes:['Photos & videos (₹500 extra)','Transport'], highlights:['83 m highest bungee in India','Cantilever platform over Hyul River','Certified by British & New Zealand experts','Thrill rating: 10/10'], knowBefore:'Weight limit: 40–110 kg. Not suitable for people with back/neck issues, epilepsy, or heart problems.' },
   'Camping':             { emoji:'⛺', bg:'linear-gradient(135deg,#0a1a10,#1a3a20)', duration:'1 night / 2 days', difficulty:'Easy', groupSize:'2–20 people', minAge:'5+', meetingPoint:'Shivpuri Camp Zone', includes:['Tent & sleeping bag','Bonfire & music','Dinner & breakfast','Morning nature walk'], excludes:['Alcohol','Personal toiletries'], highlights:['Riverside tent stay on Ganga banks','Bonfire under the stars','Morning yoga session','Adventure activities add-on available'], knowBefore:'Carry warm clothing for nights. Mobile signal may be weak. Eco-friendly zone — plastic not allowed.' },
   'Trekking':            { emoji:'🥾', bg:'linear-gradient(135deg,#1a1505,#3a3010)', duration:'4–6 hrs', difficulty:'Moderate–Hard', groupSize:'4–15 people', minAge:'12+', meetingPoint:'Lakshman Jhula, Rishikesh', includes:['Expert trek guide','First-aid kit','Safety equipment','Route maps'], excludes:['Meals','Personal gear','Transport to base'], highlights:['Kunjapuri temple sunrise trek','360° Himalayan panorama','Chandrabhaga & Neelkanth routes','Wildlife sighting zone'], knowBefore:'Wear sturdy shoes. Carry 2L water minimum. Avoid trekking alone. Difficulty may vary by route.' },
@@ -1593,6 +1593,14 @@ function openProperty(card) {
     
     // Highlights
     document.getElementById('po-act-highlights').innerHTML = act.highlights.map(h => '<div class="po-hl"><div class="po-hl-icon">⚡</div><div><div class="po-hl-title">'+h+'</div></div></div>').join('');
+    var distRow = document.getElementById('po-distance-row');
+    if (distRow) {
+      if (name === 'River Rafting') {
+        distRow.style.display = 'block';
+        document.getElementById('po-distance-select').value = '16';
+        poUpdateDistance();
+      } else { distRow.style.display = 'none'; }
+    }
     
     // Know before
     document.getElementById('po-know-before').textContent = act.knowBefore;
@@ -1820,6 +1828,15 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
       <div class="po-stat"><div class="po-stat-val">180°</div><div class="po-stat-lbl">View</div></div>
     </div>
 
+    <!-- DISTANCE selector (River Rafting only) -->
+    <div id="po-distance-row" style="display:none;margin:16px 0 8px">
+      <label style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,237,232,.5);display:block;margin-bottom:8px">Distance</label>
+      <select id="po-distance-select" onchange="poUpdateDistance()" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#161a22;color:#f0ede8;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f0ede8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 14px center">
+        <option value="11">11 km — ₹499 / person</option>
+        <option value="16" selected>16 km — ₹699 / person</option>
+        <option value="24">24 km — ₹999 / person</option>
+      </select>
+    </div>
     <!-- ACTIVITY stats -->
     <div class="po-stats" id="po-activity-stats" style="display:none">
       <div class="po-stat"><div class="po-stat-val" id="po-act-duration">3–4 hrs</div><div class="po-stat-lbl">Duration</div></div>
@@ -1868,7 +1885,7 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
           <button class="po-gst-btn" onclick="poGuests(1)">+</button>
         </div>
       </div>
-      <button class="po-book-btn" onclick="poBookWhatsApp()">💬 Book on WhatsApp</button>
+      <button class="po-book-btn" id="po-book-btn" onclick="poBookNow()">Book Now</button>
       <div class="po-breakdown" id="po-breakdown" style="display:none">
         <div class="po-br-row"><span id="po-br-nights">Base</span><span id="po-br-base">₹0</span></div>
         <div class="po-br-row"><span>Taxes & fees (18%)</span><span id="po-br-tax">₹0</span></div>
@@ -1946,3 +1963,34 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
     </div>
   </div>
 </div>
+  var raftingDistances = {
+    '11': { label:'11 km', price:499, duration:'1–2 hrs', highlights:['Brahmpuri to NIM Beach stretch','Marine Drive rapids (Grade II)','Perfect for beginners & families','Scenic Ganga banks with forest cover','Calm stretches for swimming stops'] },
+    '16': { label:'16 km', price:699, duration:'2–3 hrs', highlights:['Shivpuri to Rishikesh — classic route','Roller Coaster rapids (Grade III)','Golf Course & Double Trouble rapids','Best balance of thrill & scenery','Most popular stretch on the Ganga'] },
+    '24': { label:'24 km', price:999, duration:'3–4 hrs', highlights:['Marine Drive to Rishikesh — full run','Multiple Grade III rapids back-to-back','Includes Roller Coaster & Golf Course','Deepest gorge sections of the Ganga','Best for adventure enthusiasts'] }
+  };
+  function poUpdateDistance() {
+    var sel = document.getElementById('po-distance-select');
+    var km = sel ? sel.value : '16';
+    var tier = raftingDistances[km];
+    if (!tier) return;
+    document.getElementById('po-price').textContent = '₹' + tier.price.toLocaleString('en-IN');
+    document.getElementById('po-act-duration').textContent = tier.duration;
+    var hlEl = document.getElementById('po-act-highlights');
+    if (hlEl) hlEl.innerHTML = tier.highlights.map(function(h){ return '<li>'+h+'</li>'; }).join('');
+    poUpdateBooking();
+  }
+  function poBookNow() {
+    var name = document.getElementById('po-prop-name').textContent.trim();
+    var distSel = document.getElementById('po-distance-select');
+    var distRow = document.getElementById('po-distance-row');
+    var km = (distRow && distRow.style.display !== 'none' && distSel) ? distSel.value : null;
+    var price = document.getElementById('po-price').textContent;
+    var people = document.getElementById('po-guests-count') ? document.getElementById('po-guests-count').textContent : '2';
+    var date = document.getElementById('po-checkin') ? document.getElementById('po-checkin').value : '';
+    var msg = 'Hi! I want to book ' + name;
+    if (km) msg += ' (' + km + ' km stretch)';
+    msg += '\nDate: ' + (date || 'TBD') + '\nPeople: ' + people + '\nPrice: ' + price + ' / person';
+    var waUrl = 'https://wa.me/919557777701?text=' + encodeURIComponent(msg);
+    window.open(waUrl, '_blank');
+  }
+
