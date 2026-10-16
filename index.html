@@ -735,6 +735,7 @@ footer {
 }
 #cart-fab:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 6px 28px rgba(232,130,90,.55); }
 #cart-fab.visible { display: flex; animation: cart-blink 1.8s ease-in-out infinite; }
+#cart-fab.payment-page { display: none; animation: none; }
 #cart-fab.pulse { animation: cartPulse .5s ease 3; }
 @keyframes cartPulse { 0%,100% { transform: scale(1); } 40% { transform: scale(1.12); } }
 #cart-badge {
@@ -2467,8 +2468,15 @@ function cartUpdateFab() {
   var fab = document.getElementById('cart-fab');
   var badge = document.getElementById('cart-badge');
   if (!fab) return;
-  badge.textContent = tripCart.length;
-  if (tripCart.length > 0) { fab.classList.add('visible'); } else { fab.classList.remove('visible'); }
+  if (badge) badge.textContent = tripCart.length;
+  var isPaymentPage = /^\/(?:payment|checkout)(?:\/|$)/i.test(window.location.pathname);
+  fab.classList.toggle('payment-page', isPaymentPage);
+  fab.classList.toggle('visible', tripCart.length > 0 && !isPaymentPage);
+  fab.setAttribute('aria-hidden', tripCart.length > 0 && !isPaymentPage ? 'false' : 'true');
+}
+function cartRefreshFromStorage() {
+  cartLoad();
+  cartUpdateFab();
 }
 function cartPulse() {
   var fab = document.getElementById('cart-fab');
@@ -2673,6 +2681,13 @@ function poCalInitDisplay() {
   disp(ci, 'po-checkin-disp'); disp(co, 'po-checkout-disp');
 }
 cartLoad(); cartUpdateFab();
+window.addEventListener('pageshow', cartRefreshFromStorage);
+window.addEventListener('popstate', cartRefreshFromStorage);
+window.addEventListener('hashchange', cartRefreshFromStorage);
+window.addEventListener('storage', function(event) {
+  if (event.key === 'mrt_cart' || event.key === null) cartRefreshFromStorage();
+});
+window.addEventListener('focus', cartRefreshFromStorage);
 applyListingPhotos();
 openPropertyFromRoute();
 </script>
