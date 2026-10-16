@@ -1978,18 +1978,6 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
       <div class="po-stat"><div class="po-stat-val">180°</div><div class="po-stat-lbl">View</div></div>
     </div>
 
-    <!-- DISTANCE selector (River Rafting only) -->
-    <div id="po-distance-row" style="display:none;margin:16px 0 8px">
-      <label style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,237,232,.5);display:block;margin-bottom:8px">Distance</label>
-      <select id="po-distance-select" onchange="poUpdateDistance()" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#161a22;color:#f0ede8;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f0ede8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 14px center">
-        <option value="11">11 km — ₹499 / person</option>
-        <option value="16" selected>16 km — ₹699 / person</option>
-        <option value="24">24 km — ₹999 / person</option>
-      </select>
-    </div>
-    <!-- ACTIVITY stats -->
-    <div class="po-stats" id="po-activity-stats" style="display:none">
-      <div class="po-stat"><div class="po-stat-val" id="po-act-duration">3–4 hrs</div><div class="po-stat-lbl">Duration</div></div>
       <div class="po-stat"><div class="po-stat-val" id="po-act-difficulty">Moderate</div><div class="po-stat-lbl">Difficulty</div></div>
       <div class="po-stat"><div class="po-stat-val" id="po-act-group">6–12</div><div class="po-stat-lbl">Group Size</div></div>
       <div class="po-stat"><div class="po-stat-val" id="po-act-age">14+</div><div class="po-stat-lbl">Min. Age</div></div>
@@ -2003,6 +1991,18 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
           <span class="po-price-per">/ <span id="po-book-label-night">night</span><span id="po-book-label-person" style="display:none">person</span></span>
         </div>
       </div>
+      <!-- DISTANCE selector (River Rafting only) -->
+      <div id="po-distance-row" style="display:none;margin:16px 0 8px">
+        <label style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,237,232,.5);display:block;margin-bottom:8px">Distance</label>
+        <select id="po-distance-select" onchange="poUpdateDistance()" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#161a22;color:#f0ede8;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f0ede8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 14px center">
+          <option value="11">11 km — ₹499 / person</option>
+          <option value="16" selected>16 km — ₹699 / person</option>
+          <option value="24">24 km — ₹999 / person</option>
+        </select>
+      </div>
+      <!-- ACTIVITY stats -->
+      <div class="po-stats" id="po-activity-stats" style="display:none">
+        <div class="po-stat"><div class="po-stat-val" id="po-act-duration">3–4 hrs</div><div class="po-stat-lbl">Duration</div></div>
       <div id="po-checkin-row" class="po-date-grid" style="grid-template-columns:1fr 1fr">
         <div id="po-date-label-row">
           <label class="po-date-label" id="po-checkin-label">Date</label>
