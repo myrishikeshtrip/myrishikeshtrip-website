@@ -1617,28 +1617,30 @@ function getPropertyPageDetails(card) {
   return { name: name, category: category, copy: Math.max(0, matches.indexOf(card)) };
 }
 
+function propertySlug(value) {
+  return String(value).toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '')
+    .replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
 function renderPropertyDetails(card) {
   var detail = getPropertyPageDetails(card);
-  var params = new URLSearchParams();
-  params.set('property', detail.name);
-  params.set('category', detail.category);
-  params.set('copy', String(detail.copy));
-  window.location.assign(window.location.pathname + '?' + params.toString() + window.location.hash);
+  var url = '/details/' + propertySlug(detail.category) + '/' + propertySlug(detail.name) + '/' + detail.copy;
+  window.location.assign(url + window.location.hash);
 }
 
 function openPropertyFromRoute() {
-  var params = new URLSearchParams(window.location.search);
-  if (!params.has('property')) return;
-  var name = params.get('property') || '';
-  var category = params.get('category') || '';
-  var copy = parseInt(params.get('copy') || '0', 10);
-  if (!Number.isFinite(copy) || copy < 0) copy = 0;
+  var route = window.location.pathname.split('/').filter(Boolean);
+  if (route[0] !== 'details' || route.length < 4) return;
+  var category = route[1];
+  var name = route[2];
+  var copy = parseInt(route[3], 10);
+  if (!Number.isFinite(copy) || copy < 0) return;
   var matches = Array.prototype.filter.call(document.querySelectorAll('.camp-card'), function(card) {
     var nameEl = card.querySelector('.camp-name');
     var rail = card.closest('.rail-section');
     var eyebrowEl = rail ? rail.querySelector('.section-eyebrow') : null;
-    return (nameEl ? nameEl.textContent.trim() : 'Property') === name &&
-      (eyebrowEl ? eyebrowEl.textContent.trim() : '') === category;
+    return propertySlug(nameEl ? nameEl.textContent.trim() : 'Property') === name &&
+      propertySlug(eyebrowEl ? eyebrowEl.textContent.trim() : '') === category;
   });
   if (matches[copy]) openProperty(matches[copy]);
 }
@@ -1798,9 +1800,10 @@ function openProperty(card) {
 }
 
 function closePropOverlay() {
-  if (new URLSearchParams(window.location.search).has('property')) {
-    if (window.history.length > 1) window.history.back();
-    else window.location.replace(window.location.pathname + window.location.hash);
+  if (window.location.pathname.indexOf('/details/') === 0) {
+    var previousPage = document.referrer;
+    if (previousPage && new URL(previousPage).origin === window.location.origin) window.history.back();
+    else window.location.replace('/');
     return;
   }
   document.getElementById('prop-overlay').classList.remove('open');
@@ -1998,7 +2001,6 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
   </style>
 
   <div class="po-nav">
-    <button class="po-back" onclick="closePropOverlay()">← Back</button>
     <div class="po-nav-title" id="po-nav-title">Property</div>
   </div>
 
