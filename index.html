@@ -1718,9 +1718,33 @@ function openProperty(card) {
   // Reset dates
   document.getElementById('po-checkin').value = '';
   document.getElementById('po-checkout').value = '';
-  document.getElementById('po-nights').textContent = 'Select dates';
+  document.getElementById('po-nights').textContent = isActivity ? 'Select date above' : 'Select dates';
   document.getElementById('po-breakdown').style.display = 'none';
   if (typeof poCalInitDisplay === 'function') poCalInitDisplay();
+  // Activity mode: hide checkout, show slot dropdown; else show checkout
+  var checkoutCol = document.getElementById('po-checkout-col');
+  var checkoutLabelCol = document.getElementById('po-checkout-label-col');
+  var slotRow = document.getElementById('po-slot-row');
+  var slotSel = document.getElementById('po-slot-select');
+  var dateGrid = document.getElementById('po-checkin-row');
+  var nightsEl = document.getElementById('po-nights');
+  var checkinLbl = document.getElementById('po-checkin-label');
+  if (isActivity) {
+    if (checkoutCol) checkoutCol.style.display = 'none';
+    if (checkoutLabelCol) checkoutLabelCol.style.display = 'none';
+    if (dateGrid) dateGrid.style.gridTemplateColumns = '1fr';
+    if (slotRow) slotRow.style.display = 'block';
+    if (slotSel) slotSel.value = '';
+    if (checkinLbl) checkinLbl.textContent = 'Date';
+    if (nightsEl) nightsEl.style.display = 'none';
+  } else {
+    if (checkoutCol) checkoutCol.style.display = '';
+    if (checkoutLabelCol) checkoutLabelCol.style.display = '';
+    if (dateGrid) dateGrid.style.gridTemplateColumns = '1fr 1fr';
+    if (slotRow) slotRow.style.display = 'none';
+    if (checkinLbl) checkinLbl.textContent = 'Check In';
+    if (nightsEl) nightsEl.style.display = '';
+  }
   poGuestsCount = 2;
   document.getElementById('po-guest-count').textContent = '2';
   document.getElementById('po-guest-label').textContent = isActivity ? '2 People' : '2 Adults';
@@ -1740,15 +1764,21 @@ function closePropOverlay() {
 function poUpdateBooking() {
   var ci = document.getElementById('po-checkin').value;
   var co = document.getElementById('po-checkout').value;
-  if (!ci || !co) return;
-  var d1 = new Date(ci), d2 = new Date(co);
-  if (d2 <= d1) return;
-  var nights = Math.round((d2 - d1) / 86400000);
+  if (poIsActivity) {
+    if (!ci) return;
+  } else {
+    if (!ci || !co) return;
+    var d1 = new Date(ci), d2 = new Date(co);
+    if (d2 <= d1) return;
+  }
+  var nights = poIsActivity ? 1 : Math.round((new Date(co) - new Date(ci)) / 86400000);
   var base = poPricePerNight * (poIsActivity ? poGuestsCount : nights);
   var tax = Math.round(base * 0.18);
   var total = base + tax;
   if (poIsActivity) {
-    document.getElementById('po-nights').innerHTML = '<strong>' + poGuestsCount + ' person' + (poGuestsCount > 1 ? 's' : '') + '</strong> · ' + new Date(ci).toLocaleDateString('en-IN', {day:'numeric',month:'short'});
+    var slotVal = document.getElementById('po-slot-select') ? document.getElementById('po-slot-select').value : '';
+    document.getElementById('po-nights').style.display = 'block';
+    document.getElementById('po-nights').innerHTML = '<strong>' + poGuestsCount + ' person' + (poGuestsCount > 1 ? 's' : '') + '</strong> · ' + new Date(ci).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) + (slotVal ? ' · ' + slotVal : '');
     document.getElementById('po-br-nights').textContent = '₹' + poPricePerNight.toLocaleString('en-IN') + ' × ' + poGuestsCount + ' person' + (poGuestsCount>1?'s':'');
   } else {
     document.getElementById('po-nights').innerHTML = '<strong>' + nights + ' night' + (nights > 1 ? 's' : '') + '</strong> selected';
@@ -1975,10 +2005,10 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
       </div>
       <div id="po-checkin-row" class="po-date-grid" style="grid-template-columns:1fr 1fr">
         <div id="po-date-label-row">
-          <label class="po-date-label">Check In</label>
+          <label class="po-date-label" id="po-checkin-label">Date</label>
         </div>
-        <div>
-          <label class="po-date-label">Check Out</label>
+        <div id="po-checkout-label-col">
+          <label class="po-date-label" id="po-checkout-label">Check Out</label>
         </div>
         <div style="position:relative;">
           <div class="po-date-wrap" id="po-checkin-wrap" onclick="poCalOpen('checkin')">
@@ -1988,7 +2018,7 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
           <div class="po-cal-popup" id="po-cal-checkin"></div>
           <input type="date" class="po-date-input" id="po-checkin">
         </div>
-        <div style="position:relative;">
+        <div style="position:relative;" id="po-checkout-col">
           <div class="po-date-wrap" id="po-checkout-wrap" onclick="poCalOpen('checkout')">
             <span class="po-date-icon">📅</span>
             <span class="po-date-val empty" id="po-checkout-disp">Select date</span>
@@ -1998,6 +2028,19 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
         </div>
       </div>
       <div class="po-nights" id="po-nights">Select dates</div>
+      <div id="po-slot-row" style="display:none;margin-top:10px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:6px;">Rafting Slot</div>
+        <select id="po-slot-select" style="width:100%;background:#1e2a22;color:#f0ede8;border:1.5px solid rgba(240,237,232,.18);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:500;cursor:pointer;outline:none;" onchange="poUpdateBooking()">
+          <option value="">Select a time slot</option>
+          <option value="10:00 AM – 11:00 AM">10:00 AM – 11:00 AM</option>
+          <option value="11:00 AM – 12:00 PM">11:00 AM – 12:00 PM</option>
+          <option value="12:00 PM – 1:00 PM">12:00 PM – 1:00 PM</option>
+          <option value="1:00 PM – 2:00 PM">1:00 PM – 2:00 PM</option>
+          <option value="2:00 PM – 3:00 PM">2:00 PM – 3:00 PM</option>
+          <option value="3:00 PM – 4:00 PM">3:00 PM – 4:00 PM</option>
+          <option value="4:00 PM – 5:00 PM">4:00 PM – 5:00 PM</option>
+        </select>
+      </div>
       <div class="po-guests-row">
         <div>
           <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);" id="po-guest-lbl-text">Guests</div>
@@ -2204,7 +2247,9 @@ function poAddToCart() {
     var dateVal = document.getElementById('po-checkin') ? document.getElementById('po-checkin').value : '';
     total = priceNum * guests;
     meta = (km ? km + ' · ' : '') + guests + ' person' + (guests !== 1 ? 's' : '') + ' · ' + priceText + '/person';
-    if (dateVal) meta += '<br>Date: ' + dateVal;
+    var slotVal2 = document.getElementById('po-slot-select') ? document.getElementById('po-slot-select').value : '';
+    if (dateVal) meta += '<br>Date: ' + new Date(dateVal + 'T00:00:00').toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'});
+    if (slotVal2) meta += '<br>Slot: ' + slotVal2;
   } else {
     var checkin = document.getElementById('po-checkin') ? document.getElementById('po-checkin').value : '';
     var checkout = document.getElementById('po-checkout') ? document.getElementById('po-checkout').value : '';
