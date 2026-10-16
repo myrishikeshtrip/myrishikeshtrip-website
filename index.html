@@ -1640,7 +1640,7 @@ function openPropertyFromRoute() {
     return (nameEl ? nameEl.textContent.trim() : 'Property') === name &&
       (eyebrowEl ? eyebrowEl.textContent.trim() : '') === category;
   });
-  if (matches[copy]) renderPropertyDetails(matches[copy]);
+  if (matches[copy]) openProperty(matches[copy]);
 }
 
 // ===== PROPERTY OVERLAY =====
