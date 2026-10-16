@@ -1659,10 +1659,6 @@ function openProperty(card) {
     document.getElementById('po-date-label-row').innerHTML = '<label class="po-date-label">Date</label>';
     
     // Populate activity stats
-    document.getElementById('po-act-duration').textContent = act.duration;
-    document.getElementById('po-act-difficulty').textContent = act.difficulty;
-    document.getElementById('po-act-group').textContent = act.groupSize;
-    document.getElementById('po-act-age').textContent = act.minAge;
     
     // Meeting point
     document.getElementById('po-meeting-point').textContent = act.meetingPoint;
@@ -1977,9 +1973,7 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
     </div>
 
       <div class="po-stat"><div class="po-stat-val" id="po-act-difficulty">Moderate</div><div class="po-stat-lbl">Difficulty</div></div>
-      <div class="po-stat"><div class="po-stat-val" id="po-act-group">6–12</div><div class="po-stat-lbl">Group Size</div></div>
-      <div class="po-stat"><div class="po-stat-val" id="po-act-age">14+</div><div class="po-stat-lbl">Min. Age</div></div>
-    </div>
+      <div class="po-stat"><div class="po-stat-val" id="po-act-group">6–12</div><div class="po-stat-lbl">Group Size</div></div></div>
 
     <!-- Booking card -->
     <div class="po-book-card">
