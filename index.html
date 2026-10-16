@@ -701,27 +701,33 @@ footer {
 #prop-overlay.open { display: block; }
 
 /* ===== CART SYSTEM ===== */
+@keyframes cart-blink {
+  0%, 100% { box-shadow: 0 4px 24px rgba(34,197,94,.5); }
+  50% { box-shadow: 0 4px 48px rgba(34,197,94,.95); opacity: .88; }
+}
 #cart-fab {
   position: fixed;
-  top: 18px;
-  right: max(72px, calc(env(safe-area-inset-right,0px) + 72px));
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 200;
-  background: var(--accent);
+  background: #16a34a;
   color: #fff;
   border: none;
   border-radius: 50px;
-  padding: 10px 18px;
-  font-size: 14px;
+  padding: 13px 32px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   display: none;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 20px rgba(232,130,90,.45);
-  transition: transform .15s, box-shadow .15s;
+  gap: 10px;
+  box-shadow: 0 4px 24px rgba(34,197,94,.5);
+  white-space: nowrap;
+  transition: opacity .15s;
 }
 #cart-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(232,130,90,.55); }
-#cart-fab.visible { display: flex; }
+#cart-fab.visible { display: flex; animation: cart-blink 1.8s ease-in-out infinite; }
 #cart-fab.pulse { animation: cartPulse .5s ease 3; }
 @keyframes cartPulse { 0%,100% { transform: scale(1); } 40% { transform: scale(1.12); } }
 #cart-badge {
@@ -2214,7 +2220,6 @@ function poAddToCart() {
   var btn = document.getElementById('po-add-cart-btn');
   if (btn) {
     btn.textContent = '✓ Added to Cart'; btn.classList.add('added');
-    setTimeout(function() { btn.textContent = '🛒 Add to Cart'; btn.classList.remove('added'); }, 2000);
   }
 }
 /* ── Custom date picker ── */
