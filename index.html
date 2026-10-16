@@ -50,6 +50,10 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 body {
   background: var(--bg);
   color: var(--fg);
@@ -670,7 +674,7 @@ footer {
 }
 
 /* ── Category Rails ── */
-.rail-section { margin-bottom: 56px; }
+.rail-section { margin-bottom: 56px; scroll-margin-top: 80px; }
 .rail-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 8px; }
 .rail-see-all { font-size: .82rem; font-weight: 600; color: var(--accent); text-decoration: none; white-space: nowrap; padding-bottom: 4px; }
 .rail-see-all:hover { text-decoration: underline; }
@@ -888,7 +892,7 @@ footer {
   <div class="section-inner">
 
     <!-- ===== RAIL 1: LUXURY COTTAGES ===== -->
-    <div class="rail-section">
+    <div class="rail-section" id="cottage">
       <div class="rail-header">
         <div>
           <div class="section-eyebrow">Handpicked for You</div>
@@ -1126,7 +1130,7 @@ footer {
     </div>
 
     <!-- ===== RAIL 3: COZY AIRBNBS ===== -->
-    <div class="rail-section">
+    <div class="rail-section" id="airbnbs">
       <div class="rail-header">
         <div>
           <div class="section-eyebrow">Stay Like a Local</div>
@@ -1245,7 +1249,7 @@ footer {
     </div>
 
     <!-- ===== RAIL 4: RAFTING & ACTIVITIES ===== -->
-    <div class="rail-section">
+    <div class="rail-section" id="activities">
       <div class="rail-header">
         <div>
           <div class="section-eyebrow">Thrills &amp; Experiences</div>
