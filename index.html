@@ -1716,6 +1716,7 @@ function openProperty(card) {
   var fmt = function(d){ return d.toISOString().split('T')[0]; };
   document.getElementById('po-checkin').value = fmt(ci);
   document.getElementById('po-checkout').value = fmt(co);
+  if (typeof poCalInitDisplay === 'function') poCalInitDisplay();
   poGuestsCount = 2;
   document.getElementById('po-guest-count').textContent = '2';
   document.getElementById('po-guest-label').textContent = isActivity ? '2 People' : '2 Adults';
@@ -1843,13 +1844,32 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
   .po-price-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
   .po-price-amt{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,34px);font-weight:700;}
   .po-price-per{font-size:13px;color:rgba(240,237,232,.4);margin-left:3px;}
+  /* ── Custom date picker ── */
   .po-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px;}
   .po-date-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,237,232,.4);margin-bottom:6px;}
-  .po-date-wrap{display:flex;align-items:center;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;transition:border-color .18s;}
-  .po-date-wrap:focus-within{border-color:#e8825a;box-shadow:0 0 0 3px rgba(232,130,90,.15);}
+  .po-date-wrap{display:flex;align-items:center;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;transition:border-color .18s;cursor:pointer;user-select:none;}
+  .po-date-wrap.active{border-color:#e8825a;box-shadow:0 0 0 3px rgba(232,130,90,.15);}
   .po-date-icon{padding:0 8px 0 11px;color:#e8825a;font-size:14px;}
-  .po-date-input{flex:1;background:none;border:none;outline:none;color:#f0ede8;font-size:14px;font-weight:500;padding:12px 10px 12px 0;cursor:pointer;color-scheme:dark;}
-  .po-date-input::-webkit-calendar-picker-indicator{opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}
+  .po-date-val{flex:1;color:#f0ede8;font-size:14px;font-weight:500;padding:12px 10px 12px 0;}
+  .po-date-val.empty{color:rgba(240,237,232,.35);}
+  /* Mini calendar popup */
+  .po-cal-popup{position:absolute;z-index:9999;background:#1a1f2e;border:1.5px solid rgba(255,255,255,.13);border-radius:14px;padding:14px;box-shadow:0 8px 40px rgba(0,0,0,.55);min-width:260px;display:none;}
+  .po-cal-popup.open{display:block;}
+  .po-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .po-cal-title{font-size:14px;font-weight:700;color:#f0ede8;}
+  .po-cal-nav{background:none;border:none;color:#e8825a;font-size:18px;cursor:pointer;padding:2px 7px;border-radius:6px;line-height:1;}
+  .po-cal-nav:hover{background:rgba(232,130,90,.15);}
+  .po-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;}
+  .po-cal-dh{font-size:10px;font-weight:700;color:rgba(240,237,232,.35);letter-spacing:.05em;padding:3px 0;}
+  .po-cal-day{font-size:13px;padding:6px 2px;border-radius:7px;cursor:pointer;color:#f0ede8;transition:background .12s;}
+  .po-cal-day:hover:not(.disabled):not(.empty){background:rgba(232,130,90,.25);}
+  .po-cal-day.today{font-weight:700;color:#e8825a;}
+  .po-cal-day.selected{background:#e8825a;color:#fff;font-weight:700;}
+  .po-cal-day.in-range{background:rgba(232,130,90,.18);}
+  .po-cal-day.disabled{color:rgba(240,237,232,.18);cursor:not-allowed;}
+  .po-cal-day.empty{cursor:default;}
+  /* hidden real inputs for value storage */
+  .po-date-input{display:none;}
   .po-nights{text-align:center;padding:8px 12px;font-size:13px;color:rgba(240,237,232,.6);background:rgba(232,130,90,.08);border-radius:8px;margin-bottom:11px;}
   .po-nights strong{color:#e8825a;}
   .po-guests-row{display:flex;align-items:center;justify-content:space-between;background:#1e2330;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 14px;margin-bottom:15px;}
@@ -1952,22 +1972,26 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
       </div>
       <div id="po-checkin-row" class="po-date-grid" style="grid-template-columns:1fr 1fr">
         <div id="po-date-label-row">
-          <label class="po-date-label" for="po-checkin">Check In</label>
+          <label class="po-date-label">Check In</label>
         </div>
         <div>
-          <label class="po-date-label" for="po-checkout">Check Out</label>
+          <label class="po-date-label">Check Out</label>
         </div>
-        <div>
-          <div class="po-date-wrap">
+        <div style="position:relative;">
+          <div class="po-date-wrap" id="po-checkin-wrap" onclick="poCalOpen('checkin')">
             <span class="po-date-icon">📅</span>
-            <input type="date" class="po-date-input" id="po-checkin" onchange="poUpdateBooking()">
+            <span class="po-date-val empty" id="po-checkin-disp">Select date</span>
           </div>
+          <div class="po-cal-popup" id="po-cal-checkin"></div>
+          <input type="date" class="po-date-input" id="po-checkin">
         </div>
-        <div>
-          <div class="po-date-wrap">
+        <div style="position:relative;">
+          <div class="po-date-wrap" id="po-checkout-wrap" onclick="poCalOpen('checkout')">
             <span class="po-date-icon">📅</span>
-            <input type="date" class="po-date-input" id="po-checkout" onchange="poUpdateBooking()">
+            <span class="po-date-val empty" id="po-checkout-disp">Select date</span>
           </div>
+          <div class="po-cal-popup" id="po-cal-checkout"></div>
+          <input type="date" class="po-date-input" id="po-checkout">
         </div>
       </div>
       <div class="po-nights" id="po-nights">Select dates</div>
@@ -2079,7 +2103,7 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePr
     poUpdateBooking();
   }
   function poBookNow() {
-    var name = document.getElementById('po-prop-name').textContent.trim();
+    var name = document.getElementById('po-name').textContent.trim();
     var distSel = document.getElementById('po-distance-select');
     var distRow = document.getElementById('po-distance-row');
     var km = (distRow && distRow.style.display !== 'none' && distSel) ? distSel.value : null;
@@ -2173,7 +2197,7 @@ Please confirm availability. Thanks!';
   window.open('https://wa.me/919557777701?text=' + encodeURIComponent(msg), '_blank');
 }
 function poAddToCart() {
-  var name = document.getElementById('po-prop-name') ? document.getElementById('po-prop-name').textContent.trim() : 'Item';
+  var name = document.getElementById('po-name') ? document.getElementById('po-name').textContent.trim() : 'Item';
   var priceEl = document.getElementById('po-price');
   var priceText = priceEl ? priceEl.textContent.trim() : '₹0';
   var priceNum = parseInt(priceText.replace(/[^0-9]/g, ''), 10) || 0;
@@ -2205,6 +2229,118 @@ function poAddToCart() {
     btn.textContent = '✓ Added to Cart'; btn.classList.add('added');
     setTimeout(function() { btn.textContent = '🛒 Add to Cart'; btn.classList.remove('added'); }, 2000);
   }
+}
+/* ── Custom date picker ── */
+var _poCalWhich = null;
+var _poCalYear = new Date().getFullYear();
+var _poCalMonth = new Date().getMonth();
+
+function poCalOpen(which) {
+  document.getElementById('po-cal-checkin').classList.remove('open');
+  document.getElementById('po-cal-checkout').classList.remove('open');
+  document.getElementById('po-checkin-wrap').classList.remove('active');
+  document.getElementById('po-checkout-wrap').classList.remove('active');
+  _poCalWhich = which;
+  var curVal = document.getElementById('po-' + which).value;
+  var seed = curVal ? new Date(curVal + 'T00:00:00') : new Date();
+  _poCalYear = seed.getFullYear();
+  _poCalMonth = seed.getMonth();
+  poCalRender();
+  document.getElementById('po-cal-' + which).classList.add('open');
+  document.getElementById('po-' + which + '-wrap').classList.add('active');
+}
+
+function poCalClose() {
+  if (!_poCalWhich) return;
+  document.getElementById('po-cal-' + _poCalWhich).classList.remove('open');
+  document.getElementById('po-' + _poCalWhich + '-wrap').classList.remove('active');
+  _poCalWhich = null;
+}
+
+function poCalNav(delta) {
+  _poCalMonth += delta;
+  if (_poCalMonth < 0) { _poCalMonth = 11; _poCalYear--; }
+  if (_poCalMonth > 11) { _poCalMonth = 0; _poCalYear++; }
+  poCalRender();
+}
+
+function poCalRender() {
+  if (!_poCalWhich) return;
+  var popup = document.getElementById('po-cal-' + _poCalWhich);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var ciVal = document.getElementById('po-checkin').value;
+  var coVal = document.getElementById('po-checkout').value;
+  var ciDate = ciVal ? new Date(ciVal + 'T00:00:00') : null;
+  var coDate = coVal ? new Date(coVal + 'T00:00:00') : null;
+  var minDate = new Date(today);
+  if (_poCalWhich === 'checkout' && ciDate) { minDate = new Date(ciDate); minDate.setDate(minDate.getDate() + 1); }
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var days = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  var firstDay = new Date(_poCalYear, _poCalMonth, 1).getDay();
+  var daysInMonth = new Date(_poCalYear, _poCalMonth + 1, 0).getDate();
+  var html = '<div class="po-cal-head"><button class="po-cal-nav" onclick="poCalNav(-1)">&#8249;</button><span class="po-cal-title">' + months[_poCalMonth] + ' ' + _poCalYear + '</span><button class="po-cal-nav" onclick="poCalNav(1)">&#8250;</button></div><div class="po-cal-grid">';
+  days.forEach(function(d){ html += '<div class="po-cal-dh">' + d + '</div>'; });
+  for (var i = 0; i < firstDay; i++) html += '<div class="po-cal-day empty"></div>';
+  for (var d = 1; d <= daysInMonth; d++) {
+    var date = new Date(_poCalYear, _poCalMonth, d); date.setHours(0,0,0,0);
+    var cls = 'po-cal-day';
+    if (date < minDate) { cls += ' disabled'; html += '<div class="' + cls + '">' + d + '</div>'; continue; }
+    if (ciDate && date.getTime() === ciDate.getTime()) cls += ' selected';
+    else if (coDate && date.getTime() === coDate.getTime()) cls += ' selected';
+    else if (ciDate && coDate && date > ciDate && date < coDate) cls += ' in-range';
+    if (date.getTime() === today.getTime()) cls += ' today';
+    html += '<div class="' + cls + '" onclick="poCalPick(' + _poCalYear + ',' + _poCalMonth + ',' + d + ')">' + d + '</div>';
+  }
+  html += '</div>';
+  popup.innerHTML = html;
+}
+
+function poCalPick(y, m, d) {
+  var picked = new Date(y, m, d);
+  var iso = picked.getFullYear() + '-' + String(picked.getMonth()+1).padStart(2,'0') + '-' + String(picked.getDate()).padStart(2,'0');
+  var display = picked.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+  if (_poCalWhich === 'checkin') {
+    document.getElementById('po-checkin').value = iso;
+    document.getElementById('po-checkin-disp').textContent = display;
+    document.getElementById('po-checkin-disp').classList.remove('empty');
+    var coVal = document.getElementById('po-checkout').value;
+    if (coVal) {
+      var coDate = new Date(coVal + 'T00:00:00');
+      var ciDate = new Date(iso + 'T00:00:00');
+      if (coDate <= ciDate) {
+        document.getElementById('po-checkout').value = '';
+        document.getElementById('po-checkout-disp').textContent = 'Select date';
+        document.getElementById('po-checkout-disp').classList.add('empty');
+      }
+    }
+    poCalClose();
+    setTimeout(function(){ poCalOpen('checkout'); }, 150);
+  } else {
+    document.getElementById('po-checkout').value = iso;
+    document.getElementById('po-checkout-disp').textContent = display;
+    document.getElementById('po-checkout-disp').classList.remove('empty');
+    poCalClose();
+  }
+  poUpdateBooking();
+}
+
+document.addEventListener('click', function(e) {
+  if (!_poCalWhich) return;
+  var popup = document.getElementById('po-cal-' + _poCalWhich);
+  var wrap = document.getElementById('po-' + _poCalWhich + '-wrap');
+  if (popup && !popup.contains(e.target) && wrap && !wrap.contains(e.target)) poCalClose();
+});
+
+function poCalInitDisplay() {
+  var ci = document.getElementById('po-checkin').value;
+  var co = document.getElementById('po-checkout').value;
+  var disp = function(val, elId) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (val) { el.textContent = new Date(val+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); el.classList.remove('empty'); }
+    else { el.textContent = 'Select date'; el.classList.add('empty'); }
+  };
+  disp(ci, 'po-checkin-disp'); disp(co, 'po-checkout-disp');
 }
 cartLoad(); cartUpdateFab();
 </script>
