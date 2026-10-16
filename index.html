@@ -1642,7 +1642,7 @@ function openPropertyFromRoute() {
     return propertySlug(nameEl ? nameEl.textContent.trim() : 'Property') === name &&
       propertySlug(eyebrowEl ? eyebrowEl.textContent.trim() : '') === category;
   });
-  if (matches[copy]) openProperty(matches[copy]);
+  if (matches[copy]) showPropertyDetails(matches[copy]);
 }
 
 // ===== PROPERTY OVERLAY =====
@@ -1668,6 +1668,10 @@ var activityMeta = {
 };
 
 function openProperty(card) {
+  renderPropertyDetails(card);
+}
+
+function showPropertyDetails(card) {
   var nameEl = card.querySelector('.camp-name');
   var priceEl = card.querySelector('.camp-price strong');
   var metaEl = card.querySelector('.camp-meta');
