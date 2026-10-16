@@ -1710,18 +1710,15 @@ function openProperty(card) {
   }
 
   // Reset dates
-  var today = new Date();
-  var ci = new Date(today); ci.setDate(today.getDate() + 1);
-  var co = new Date(today); co.setDate(today.getDate() + 3);
-  var fmt = function(d){ return d.toISOString().split('T')[0]; };
-  document.getElementById('po-checkin').value = fmt(ci);
-  document.getElementById('po-checkout').value = fmt(co);
+  document.getElementById('po-checkin').value = '';
+  document.getElementById('po-checkout').value = '';
+  document.getElementById('po-nights').textContent = 'Select dates';
+  document.getElementById('po-breakdown').style.display = 'none';
   if (typeof poCalInitDisplay === 'function') poCalInitDisplay();
   poGuestsCount = 2;
   document.getElementById('po-guest-count').textContent = '2';
   document.getElementById('po-guest-label').textContent = isActivity ? '2 People' : '2 Adults';
   document.getElementById('po-guest-lbl-text').textContent = isActivity ? 'People' : 'Guests';
-  poUpdateBooking();
 
   var ov = document.getElementById('prop-overlay');
   ov.classList.add('open');
@@ -2177,23 +2174,13 @@ function clearCart() {
 }
 function cartCheckout() {
   if (tripCart.length === 0) return;
-  var msg = 'Hi! I want to book the following for my Rishikesh trip:
-
-';
+  var msg = 'Hi! I want to book the following for my Rishikesh trip:\n\n';
   var grandTotal = 0;
   tripCart.forEach(function(item, i) {
     grandTotal += item.total;
-    msg += (i+1) + '. ' + item.name + '
-   ' + item.meta.replace(/<br>/g, '
-   ') + '
-   Total: ₹' + item.total.toLocaleString('en-IN') + '
-
-';
+    msg += (i+1) + '. ' + item.name + '\n   ' + item.meta.replace(/<br>/g, '\n   ') + '\n   Total: \u20b9' + item.total.toLocaleString('en-IN') + '\n\n';
   });
-  msg += '---
-Trip Total: ₹' + grandTotal.toLocaleString('en-IN') + '
-
-Please confirm availability. Thanks!';
+  msg += '---\nTrip Total: \u20b9' + grandTotal.toLocaleString('en-IN') + '\n\nPlease confirm availability. Thanks!';
   window.open('https://wa.me/919557777701?text=' + encodeURIComponent(msg), '_blank');
 }
 function poAddToCart() {
