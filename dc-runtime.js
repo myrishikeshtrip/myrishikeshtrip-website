@@ -399,13 +399,13 @@
     return o;
   }
   function compileAttr(raw) {
-    const whole = raw.match(/^\s*\{\x([\s\S]+?)\}\}\s*$/);
+    const whole = raw.match(/^\s*\{\{([\s\S]+?)\}\}\s*$/);
     if (whole) {
       const path = whole[1];
       return (vals) => resolve(vals, path);
     }
     if (raw.includes("{{")) {
-      const parts = raw.split(/\{\x([\s\S]+?)\}\}/g);
+      const parts = raw.split(/\{\{([\s\S]+?)\}\}/g);
       return (vals) => parts.map((s, i) => i & 1 ? resolve(vals, s) ?? "" : s).join("");
     }
     return () => raw;
