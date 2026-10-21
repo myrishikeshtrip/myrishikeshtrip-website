@@ -254,10 +254,35 @@ input{font-family:inherit}
 
 <style>
 @media (max-width:767px){
-  #main-nav{display:none!important}
-  #chat-btn{display:none!important}
-  .search-grid{grid-template-columns:1fr!important}
-  [style*="overflow-x:auto"]::-webkit-scrollbar{display:none}
+  header > div {
+    padding: 10px 14px !important;
+    gap: 10px !important;
+    flex-wrap: nowrap !important;
+  }
+  header > div > a {
+    font-size: 18px !important;
+    white-space: nowrap;
+  }
+  #main-nav {
+    display: flex !important;
+    flex: 1 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 14px !important;
+    flex-wrap: nowrap !important;
+    font-size: 13px !important;
+  }
+  #main-nav::-webkit-scrollbar { display: none; }
+  #main-nav a { white-space: nowrap; }
+  #chat-btn { padding: 7px 10px !important; font-size: 12px !important; white-space: nowrap; }
+  #mytrip-btn { padding: 7px 10px !important; font-size: 12px !important; white-space: nowrap; }
+  [style*="overflow-x:auto"] { flex-wrap: nowrap !important; }
+  [style*="overflow-x:auto"]::-webkit-scrollbar { display: none; }
+  .search-grid { grid-template-columns: 1fr !important; }
+  section > div[style*="min-height:540px"] { min-height: 380px !important; }
+  section > div[style*="padding:48px"] { padding: 24px 20px 100px !important; }
+  section > div[style*="margin:-92px"] { margin: -60px 14px 0 !important; }
 }
 </style>
 </helmet>
@@ -277,7 +302,7 @@ input{font-family:inherit}
       <a id="chat-btn" href="https://wa.me/919999999999" target="_blank" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid #cfc7b6;color:#1f2a24;font-size:14px;font-weight:600">
         <span style="width:8px;height:8px;border-radius:50%;background:#2f9e5b"></span>Chat with us
       </a>
-      <button sc-camel-on-click="{{ openCart }}" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:none;background:#1f2a24;color:#f6f3ec;font-size:14px;font-weight:600">
+      <button id="mytrip-btn" sc-camel-on-click="{{ openCart }}" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:none;background:#1f2a24;color:#f6f3ec;font-size:14px;font-weight:600">
         My trip<span style="min-width:20px;height:20px;border-radius:10px;background:#d9822b;color:#1f2a24;font-size:12px;display:flex;align-items:center;justify-content:center;padding:0 5px">{{ cartCount }}</span>
       </button>
     </div>
